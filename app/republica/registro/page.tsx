@@ -63,7 +63,9 @@ const brotherhoodRegistrationFormSchema = z.object({
   description: z.string().min(3, {
     message: "Descrição deve ter no mínimo 3 caracteres",
   }),
-  type: z.enum(["JUST_MEN", "JUST_WOMEN", "NO_RESTRICTIONS"]),
+  type: z.enum(["JUST_MEN", "JUST_WOMEN", "NO_RESTRICTIONS"], {
+    required_error: "Tipo de república é obrigatório",
+  }),
   capacity: z.number().min(1, {
     message: "Capacidade deve ser maior que 0",
   }),
@@ -111,7 +113,7 @@ export default function BrotherhoodRegistrationPage() {
 
   return (
     <Form {...form}>
-      {/* TODO: image/cover clickable to edit */}
+      {/* TODO: avatar/cover clickable to edit */}
       <Avatar>
         <AvatarImage src="https://github.com/shadcn.png" />
         <AvatarFallback>{getInitials(name)}</AvatarFallback>
