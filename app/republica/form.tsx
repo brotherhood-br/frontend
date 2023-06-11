@@ -1,7 +1,6 @@
 "use client"
 
 import Link from "next/link"
-import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm, useWatch } from "react-hook-form"
 import { z } from "zod"
@@ -95,7 +94,6 @@ function getInitials(name: string) {
 export default function BrotherhoodForm({
   defaultValues,
 }: BrotherhoodFormProps) {
-  const router = useRouter()
   const isEditMode = !!defaultValues
 
   const form = useForm<BrotherhoodRegistrationFormValues>({
@@ -292,11 +290,7 @@ export default function BrotherhoodForm({
         {isEditMode ? (
           <div className="space-y-2 pb-8">
             <Link href="/republica">
-              <Button
-                className="mt-auto w-full"
-                variant="secondary"
-                // onClick={() => router.back()}
-              >
+              <Button className="mt-auto w-full" variant="secondary">
                 Cancelar
               </Button>
             </Link>

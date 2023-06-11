@@ -1,39 +1,56 @@
+"use client"
+
 import Link from "next/link"
 
-import { siteConfig } from "@/config/site"
-import { buttonVariants } from "@/components/ui/button"
+import { useAuth } from "@/hooks/useAuth"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Separator } from "@/components/ui/separator"
+import { Icons } from "@/components/icons"
 
 export default function IndexPage() {
+  const { user } = useAuth()
+
   return (
-    <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
-      <div className="flex max-w-[980px] flex-col items-start gap-2">
-        <h1 className="text-3xl font-extrabold leading-tight tracking-tighter md:text-4xl">
-          Beautifully designed components <br className="hidden sm:inline" />
-          built with Radix UI and Tailwind CSS.
-        </h1>
-        <p className="max-w-[700px] text-lg text-muted-foreground">
-          Accessible and customizable components that you can copy and paste
-          into your apps. Free. Open Source. And Next.js 13 Ready.
-        </p>
-      </div>
-      <div className="flex gap-4">
-        <Link
-          href={siteConfig.links.docs}
-          target="_blank"
-          rel="noreferrer"
-          className={buttonVariants()}
-        >
-          Documentation
-        </Link>
-        <Link
-          target="_blank"
-          rel="noreferrer"
-          href={siteConfig.links.github}
-          className={buttonVariants({ variant: "outline" })}
-        >
-          GitHub
-        </Link>
-      </div>
-    </section>
+    <>
+      <Link href="/usuario/editar">
+        <header className="flex gap-6">
+          <Avatar className="h-16 w-16">
+            <AvatarImage src="https://github.com/shadcn.png" />
+            <AvatarFallback>{user?.initials}</AvatarFallback>
+          </Avatar>
+
+          <div className="mr-auto">
+            <h1 className="text-2xl font-bold">República X</h1>
+            <span>Olá, {user?.name}</span>
+          </div>
+        </header>
+      </Link>
+
+      <Separator className="my-4" />
+
+      <h1 className="mb-4 text-xl font-bold">Minhas Tarefas</h1>
+      <section className="space-y-4">
+        {/* TODO: task clickable */}
+        <Card>
+          <CardContent className="flex items-center p-6">
+            <div className="mr-auto">
+              <h3 className="text-lg font-bold">Lavar banheiro</h3>
+              <p className="text-slate-600">Vencimento: 04/11</p>
+            </div>
+            <Icons.moreVertical className="h-6 w-6" />
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="flex items-center p-6">
+            <div className="mr-auto">
+              <h3 className="text-lg font-bold">Trocar Lâmpada</h3>
+              <p className="text-slate-600">Vencimento: 04/11</p>
+            </div>
+            <Icons.moreVertical className="h-6 w-6" />
+          </CardContent>
+        </Card>
+      </section>
+    </>
   )
 }

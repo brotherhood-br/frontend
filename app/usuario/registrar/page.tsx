@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -90,7 +89,6 @@ export default function RegistrationPage() {
                 {/* <DatePicker {...field} /> */}
                 <Input placeholder="dd/mm/aaaa" {...field} />
               </FormControl>
-              <FormDescription></FormDescription>
               <FormMessage />
             </FormItem>
           )}
