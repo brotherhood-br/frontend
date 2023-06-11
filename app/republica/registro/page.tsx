@@ -235,6 +235,9 @@ export default function BrotherhoodRegistrationPage() {
             </FormItem>
           )}
         />
+
+        {/* TODO: add field of main characteristics (Combobox shadcn) */}
+
         <FormField
           control={form.control}
           name="type"

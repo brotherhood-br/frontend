@@ -6,6 +6,7 @@ type User = {
   name: string
   email: string
   avatar: string
+  initials: string
 }
 
 type AuthState = {
@@ -15,12 +16,29 @@ type AuthState = {
   logout: () => void
 }
 
+function getInitials(name: string) {
+  const words = name.split(" ")
+  const initials = words
+    .map((word) => word.charAt(0))
+    .join("")
+    .toUpperCase()
+    .substring(0, 2)
+  return initials
+}
+
 export const useAuth = create<AuthState>()(
   persist(
     (set) => ({
       user: null,
       isAuthenticated: false,
-      login: (user) => set({ user, isAuthenticated: true }),
+      login: (user) =>
+        set({
+          user: {
+            ...user,
+            initials: getInitials(user.name),
+          },
+          isAuthenticated: true,
+        }),
       logout: () => set({ user: null }),
     }),
     {
