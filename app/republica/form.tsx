@@ -1,5 +1,7 @@
 "use client"
 
+import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm, useWatch } from "react-hook-form"
 import { z } from "zod"
@@ -76,6 +78,10 @@ type BrotherhoodRegistrationFormValues = z.input<
   typeof brotherhoodRegistrationFormSchema
 >
 
+export interface BrotherhoodFormProps {
+  defaultValues?: BrotherhoodRegistrationFormValues
+}
+
 function getInitials(name: string) {
   const words = name.split(" ")
   const initials = words
@@ -86,9 +92,14 @@ function getInitials(name: string) {
   return initials
 }
 
-export default function BrotherhoodRegistrationPage() {
+export default function BrotherhoodForm({
+  defaultValues,
+}: BrotherhoodFormProps) {
+  const router = useRouter()
+  const isEditMode = !!defaultValues
+
   const form = useForm<BrotherhoodRegistrationFormValues>({
-    defaultValues: {
+    defaultValues: defaultValues ?? {
       name: "",
       street: "",
       number: "",
@@ -120,7 +131,7 @@ export default function BrotherhoodRegistrationPage() {
         <AvatarFallback>{getInitials(name)}</AvatarFallback>
       </Avatar>
 
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="mb-8 space-y-8">
         <FormField
           control={form.control}
           name="name"
@@ -241,6 +252,7 @@ export default function BrotherhoodRegistrationPage() {
 
         {/* TODO: add field of main characteristics (Combobox shadcn) */}
 
+        {/* FIX: dropdown doesnt work on edit mode */}
         <FormField
           control={form.control}
           name="type"
@@ -277,9 +289,26 @@ export default function BrotherhoodRegistrationPage() {
           )}
         />
 
-        <Button className="mt-auto w-full" type="submit">
-          Enviar
-        </Button>
+        {isEditMode ? (
+          <div className="space-y-2 pb-8">
+            <Link href="/republica">
+              <Button
+                className="mt-auto w-full"
+                variant="secondary"
+                // onClick={() => router.back()}
+              >
+                Cancelar
+              </Button>
+            </Link>
+            <Button className="w-full" type="submit">
+              Confirmar edição
+            </Button>
+          </div>
+        ) : (
+          <Button className="mt-auto w-full" type="submit">
+            Criar minha república
+          </Button>
+        )}
       </form>
     </Form>
   )

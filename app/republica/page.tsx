@@ -27,7 +27,7 @@ const BrotherhoodHomeAdmin = () => {
 
       <section className="space-y-8">
         <Card>
-          <Link href="/republica/perfil/editar">
+          <Link href="/republica/editar">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-md font-medium">Perfil</CardTitle>
 
