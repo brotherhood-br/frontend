@@ -66,8 +66,9 @@ const brotherhoodRegistrationFormSchema = z.object({
   type: z.enum(["JUST_MEN", "JUST_WOMEN", "NO_RESTRICTIONS"], {
     required_error: "Tipo de república é obrigatório",
   }),
-  capacity: z.number().min(1, {
-    message: "Capacidade deve ser maior que 0",
+  // TODO: validate capacity is a number
+  capacity: z.string().min(1, {
+    message: "Capacidade deve possuir um valor",
   }),
 })
 
@@ -97,7 +98,7 @@ export default function BrotherhoodRegistrationPage() {
       country: "",
       phone: "",
       description: "",
-      capacity: 0,
+      capacity: "",
     },
     resolver: zodResolver(brotherhoodRegistrationFormSchema),
   })
@@ -125,7 +126,7 @@ export default function BrotherhoodRegistrationPage() {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Nome</FormLabel>
+              <FormLabel>Nome da república</FormLabel>
               <FormControl>
                 <Input placeholder="" {...field} />
               </FormControl>

@@ -5,8 +5,11 @@ import {
   Moon,
   MoreHorizontal,
   MoreVertical,
+  Share2,
   SunMedium,
+  Trash,
   Twitter,
+  UserPlus,
   type Icon as LucideIcon,
 } from "lucide-react"
 
@@ -19,6 +22,9 @@ export const Icons = {
   spinner: Loader2,
   moreVertical: MoreVertical,
   moreHorizontal: MoreHorizontal,
+  share: Share2,
+  userPlus: UserPlus,
+  trash: Trash,
   menu: Menu,
   logo: (props: LucideProps) => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>

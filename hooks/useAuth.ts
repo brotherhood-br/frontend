@@ -7,6 +7,8 @@ type User = {
   email: string
   avatar: string
   initials: string
+  role: "admin" | "member"
+  isAdmin: boolean
 }
 
 type AuthState = {
@@ -36,6 +38,7 @@ export const useAuth = create<AuthState>()(
           user: {
             ...user,
             initials: getInitials(user.name),
+            isAdmin: user.role === "admin",
           },
           isAuthenticated: true,
         }),
