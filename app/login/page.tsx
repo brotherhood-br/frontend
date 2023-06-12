@@ -1,15 +1,15 @@
-import { Metadata } from "next"
+"use client"
+
 import Link from "next/link"
+import { useRouter } from "next/navigation"
+import { GoogleLogin } from "@react-oauth/google"
 
-import { Button } from "@/components/ui/button"
-import { Icons } from "@/components/icons"
-
-export const metadata: Metadata = {
-  title: "Authentication",
-  description: "Authentication forms built using the components.",
-}
+import { useAuth } from "@/hooks/useAuth"
 
 export default function SignInPage() {
+  const { externalLogin } = useAuth()
+  const router = useRouter()
+
   return (
     <div>
       <div className="mx-auto flex w-full flex-col justify-center space-y-6">
@@ -20,9 +20,19 @@ export default function SignInPage() {
             cresce no Brasil.
           </p>
         </div>
-        <Button variant="outline" type="button">
-          <Icons.google className="mr-2 h-4 w-4" /> Entrar com o Google
-        </Button>
+
+        <div className="grid w-full place-items-center">
+          <GoogleLogin
+            onSuccess={(response) => {
+              if (!response.credential) throw new Error("No credential found")
+              externalLogin(response.credential)
+              router.push("/usuario/registrar")
+            }}
+            onError={() => {
+              console.error("Login Failed")
+            }}
+          />
+        </div>
         <footer className="mt-60">
           <p className="text-sm text-muted-foreground">
             Ao continuar você concorda com nossos{" "}
