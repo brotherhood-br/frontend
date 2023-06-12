@@ -44,8 +44,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
       email: "test@gmail.com",
       avatar: "https://i.pravatar.cc/150?img=3",
       initials: "JD",
-      role: "admin",
-      isAdmin: true,
+      role: "member",
+      isAdmin: false,
     })
   }, [login])
 
