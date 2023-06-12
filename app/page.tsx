@@ -8,6 +8,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { Icons } from "@/components/icons"
 
+// TODO: create a log out button
+
 export default function IndexPage() {
   const { user } = useAuth()
 
