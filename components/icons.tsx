@@ -1,5 +1,5 @@
 import {
-  CalendarIcon,
+  Calendar,
   Check,
   ChevronsUpDown,
   Loader2,
@@ -24,7 +24,7 @@ export const Icons = {
   moon: Moon,
   twitter: Twitter,
   spinner: Loader2,
-  calendar: CalendarIcon,
+  calendar: Calendar,
   moreVertical: MoreVertical,
   moreHorizontal: MoreHorizontal,
   share: Share2,
