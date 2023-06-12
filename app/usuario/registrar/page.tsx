@@ -1,14 +1,15 @@
 "use client"
 
+import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
+import { useRegistration } from "@/hooks/useRegistration"
 import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -46,10 +47,12 @@ const registrationFormSchema = z.object({
     }),
 })
 
-type RegistrationFormValues = z.input<typeof registrationFormSchema>
+export type UserRegistrationFormValues = z.input<typeof registrationFormSchema>
 
 export default function RegistrationPage() {
-  const form = useForm<RegistrationFormValues>({
+  const router = useRouter()
+  const { setUser } = useRegistration()
+  const form = useForm<UserRegistrationFormValues>({
     defaultValues: {
       name: "",
       birthDate: "",
@@ -59,8 +62,9 @@ export default function RegistrationPage() {
     resolver: zodResolver(registrationFormSchema),
   })
 
-  const onSubmit = (values: RegistrationFormValues) => {
-    console.log(values)
+  const onSubmit = (values: UserRegistrationFormValues) => {
+    setUser(values)
+    router.push("/republica/registrar")
   }
 
   return (
@@ -90,7 +94,6 @@ export default function RegistrationPage() {
                 {/* <DatePicker {...field} /> */}
                 <Input placeholder="dd/mm/aaaa" {...field} />
               </FormControl>
-              <FormDescription></FormDescription>
               <FormMessage />
             </FormItem>
           )}

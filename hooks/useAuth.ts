@@ -16,6 +16,9 @@ type AuthState = {
   isAuthenticated: boolean
   login: (user: User) => void
   logout: () => void
+
+  externalToken: string | null
+  externalLogin: (token: string) => void
 }
 
 function getInitials(name: string) {
@@ -33,6 +36,7 @@ export const useAuth = create<AuthState>()(
     (set) => ({
       user: null,
       isAuthenticated: false,
+      externalToken: null,
       login: (user) =>
         set({
           user: {
@@ -43,6 +47,7 @@ export const useAuth = create<AuthState>()(
           isAuthenticated: true,
         }),
       logout: () => set({ user: null }),
+      externalLogin: (token) => set({ externalToken: token }),
     }),
     {
       name: "auth-storage",

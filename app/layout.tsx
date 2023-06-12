@@ -3,6 +3,8 @@
 import "@/styles/globals.css"
 import { useEffect } from "react"
 import { Metadata } from "next"
+import { GoogleOAuthProvider } from "@react-oauth/google"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
 import { siteConfig } from "@/config/site"
 import { fontSans } from "@/lib/fonts"
@@ -33,6 +35,11 @@ interface RootLayoutProps {
   children: React.ReactNode
 }
 
+const googleClientId =
+  "43960775230-1o1aqgh85sn56nr1ai1kjktp62gf9ihc.apps.googleusercontent.com"
+
+const queryClient = new QueryClient()
+
 export default function RootLayout({ children }: RootLayoutProps) {
   const { login } = useAuth()
 
@@ -59,13 +66,21 @@ export default function RootLayout({ children }: RootLayoutProps) {
             fontSans.variable
           )}
         >
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <div className="relative flex min-h-screen flex-col">
-              <SiteHeader />
-              <div className="mx-4 flex-1">{children}</div>
-            </div>
-            <TailwindIndicator />
-          </ThemeProvider>
+          <QueryClientProvider client={queryClient}>
+            <GoogleOAuthProvider clientId={googleClientId}>
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+              >
+                <div className="relative flex min-h-screen flex-col">
+                  <SiteHeader />
+                  <div className="mx-4 flex-1">{children}</div>
+                </div>
+                <TailwindIndicator />
+              </ThemeProvider>
+            </GoogleOAuthProvider>
+          </QueryClientProvider>
         </body>
       </html>
     </>

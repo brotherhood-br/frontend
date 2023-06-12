@@ -1,11 +1,13 @@
 "use client"
 
 import Link from "next/link"
-import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm, useWatch } from "react-hook-form"
 import { z } from "zod"
 
+import { useRegistrationAsync } from "@/lib/api/hooks/useRegistrationAsync"
+import { useAuth } from "@/hooks/useAuth"
+import { useRegistration } from "@/hooks/useRegistration"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import {
@@ -74,7 +76,7 @@ const brotherhoodRegistrationFormSchema = z.object({
   }),
 })
 
-type BrotherhoodRegistrationFormValues = z.input<
+export type BrotherhoodRegistrationFormValues = z.input<
   typeof brotherhoodRegistrationFormSchema
 >
 
@@ -95,8 +97,10 @@ function getInitials(name: string) {
 export default function BrotherhoodForm({
   defaultValues,
 }: BrotherhoodFormProps) {
-  const router = useRouter()
   const isEditMode = !!defaultValues
+  const { mutateAsync: createBrotherhoodAsync } = useRegistrationAsync()
+  const { user } = useRegistration()
+  const { externalToken } = useAuth()
 
   const form = useForm<BrotherhoodRegistrationFormValues>({
     defaultValues: defaultValues ?? {
@@ -114,8 +118,32 @@ export default function BrotherhoodForm({
     resolver: zodResolver(brotherhoodRegistrationFormSchema),
   })
 
-  const onSubmit = (values: BrotherhoodRegistrationFormValues) => {
-    console.log(values)
+  const onSubmit = async (values: BrotherhoodRegistrationFormValues) => {
+    console.log("submitted")
+
+    if (isEditMode) {
+      console.log("edit mode!")
+
+      return
+    }
+
+    if (!externalToken) {
+      throw new Error("No external token found")
+    }
+
+    if (!user) {
+      throw new Error("No user found")
+    }
+
+    console.log("creating brotherhood...")
+
+    await createBrotherhoodAsync({
+      user: {
+        ...user,
+        token: externalToken,
+      },
+      brotherhood: values,
+    })
   }
 
   const name = useWatch({
@@ -292,11 +320,7 @@ export default function BrotherhoodForm({
         {isEditMode ? (
           <div className="space-y-2 pb-8">
             <Link href="/republica">
-              <Button
-                className="mt-auto w-full"
-                variant="secondary"
-                // onClick={() => router.back()}
-              >
+              <Button className="mt-auto w-full" variant="secondary">
                 Cancelar
               </Button>
             </Link>
