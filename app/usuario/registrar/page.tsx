@@ -28,15 +28,11 @@ const registrationFormSchema = z.object({
     }),
   birthDate: z
     .string()
-    .min(10, {
-      message:
-        "Data de nascimento deve ter 10 caracteres no formato dd/mm/aaaa",
-    })
-    .max(10, {
-      message:
-        "Data de nascimento deve ter 10 caracteres no formato dd/mm/aaaa",
-    }),
-  email: z.string().email({ message: "Email inválido" }),
+    .regex(
+      /^(0[1-9]|[1-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\/([0-9]{4})$/,
+      "Data de nascimento deve ser no formato dd/mm/aaaa"
+    )
+    .transform((str) => str.split("/").reverse().join("-")),
   phone: z
     .string()
     .min(3, {
@@ -56,7 +52,6 @@ export default function RegistrationPage() {
     defaultValues: {
       name: "",
       birthDate: "",
-      email: "",
       phone: "",
     },
     resolver: zodResolver(registrationFormSchema),
@@ -108,19 +103,6 @@ export default function RegistrationPage() {
                 {/* TODO: use a library to handle patterns */}
                 {/* https://s-yadav.github.io/react-number-format/docs/pattern_format */}
                 <Input placeholder="( ) _____-____" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input placeholder="vanderli@gmail.com" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

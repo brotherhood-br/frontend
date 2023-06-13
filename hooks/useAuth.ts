@@ -31,26 +31,19 @@ function getInitials(name: string) {
   return initials
 }
 
-export const useAuth = create<AuthState>()(
-  persist(
-    (set) => ({
-      user: null,
-      isAuthenticated: false,
-      externalToken: null,
-      login: (user) =>
-        set({
-          user: {
-            ...user,
-            initials: getInitials(user.name),
-            isAdmin: user.role === "admin",
-          },
-          isAuthenticated: true,
-        }),
-      logout: () => set({ user: null }),
-      externalLogin: (token) => set({ externalToken: token }),
+export const useAuth = create<AuthState>((set) => ({
+  user: null,
+  isAuthenticated: false,
+  externalToken: null,
+  login: (user) =>
+    set({
+      user: {
+        ...user,
+        initials: getInitials(user.name),
+        isAdmin: user.role === "admin",
+      },
+      isAuthenticated: true,
     }),
-    {
-      name: "auth-storage",
-    }
-  )
-)
+  logout: () => set({ user: null }),
+  externalLogin: (token) => set({ externalToken: token }),
+}))

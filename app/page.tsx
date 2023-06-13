@@ -19,7 +19,7 @@ export default function IndexPage() {
         <header className="flex gap-6">
           <Avatar className="h-16 w-16">
             <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>{user?.initials}</AvatarFallback>
+            <AvatarFallback>{user?.name}</AvatarFallback>
           </Avatar>
 
           <div className="mr-auto">

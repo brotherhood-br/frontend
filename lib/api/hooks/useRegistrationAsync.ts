@@ -10,7 +10,7 @@ export interface RegistrationBody {
   description: string
   phone: string
   type: string
-  capacity: number
+  capacity: string
   characteristics: string[]
 
   address: {
@@ -23,14 +23,13 @@ export interface RegistrationBody {
   }
 
   admin: {
-    brotherhoodToken: string
     name: string
     birthDate: string
     phone: string
   }
 
-  logo: string
-  banner: string
+  logo?: string
+  banner?: string
 }
 
 export interface RegistrationParams {
@@ -49,10 +48,10 @@ export const useRegistrationAsync = () => {
         description: values.brotherhood.description,
         phone: values.brotherhood.phone,
         type: values.brotherhood.type,
-        capacity: parseInt(values.brotherhood.capacity),
+        capacity: values.brotherhood.capacity,
         characteristics: [],
-        logo: "",
-        banner: "",
+        // logo: null,
+        // banner: null,
         address: {
           street: values.brotherhood.street,
           number: values.brotherhood.number,
@@ -62,14 +61,16 @@ export const useRegistrationAsync = () => {
           country: values.brotherhood.country,
         },
         admin: {
-          brotherhoodToken: values.user.token,
           name: values.user.name,
           birthDate: values.user.birthDate,
           phone: values.user.phone,
         },
       }
 
-      return api.url("/brotherhoods").post(body)
+      return api
+        .url("/brotherhoods")
+        .headers({ sso_token: values.user.token })
+        .post(body)
     },
     {
       onSuccess: () => {

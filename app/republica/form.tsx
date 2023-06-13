@@ -13,7 +13,6 @@ import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -118,7 +117,7 @@ export default function BrotherhoodForm({
     resolver: zodResolver(brotherhoodRegistrationFormSchema),
   })
 
-  const onSubmit = async (values: BrotherhoodRegistrationFormValues) => {
+  const onSubmit = async (data: BrotherhoodRegistrationFormValues) => {
     console.log("submitted")
 
     if (isEditMode) {
@@ -142,7 +141,7 @@ export default function BrotherhoodForm({
         ...user,
         token: externalToken,
       },
-      brotherhood: values,
+      brotherhood: data,
     })
   }
 
@@ -184,7 +183,6 @@ export default function BrotherhoodForm({
                 {/* TODO: autocomplete other fields with Via CEP API */}
                 <Input placeholder="" {...field} />
               </FormControl>
-              <FormDescription></FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -198,7 +196,6 @@ export default function BrotherhoodForm({
               <FormControl>
                 <Input placeholder="" {...field} />
               </FormControl>
-              <FormDescription></FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -212,7 +209,20 @@ export default function BrotherhoodForm({
               <FormControl>
                 <Input placeholder="" {...field} />
               </FormControl>
-              <FormDescription></FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="city"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Cidade</FormLabel>
+              <FormControl>
+                <Input placeholder="" {...field} />
+              </FormControl>
+
               <FormMessage />
             </FormItem>
           )}
@@ -226,7 +236,6 @@ export default function BrotherhoodForm({
               <FormControl>
                 <Input placeholder="" {...field} />
               </FormControl>
-              <FormDescription></FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -240,7 +249,6 @@ export default function BrotherhoodForm({
               <FormControl>
                 <Input placeholder="" {...field} />
               </FormControl>
-              <FormDescription></FormDescription>
               <FormMessage />
             </FormItem>
           )}
