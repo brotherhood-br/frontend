@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm, useWatch } from "react-hook-form"
 import { z } from "zod"
@@ -100,6 +101,7 @@ export default function BrotherhoodForm({
   const { mutateAsync: createBrotherhoodAsync } = useRegistrationAsync()
   const { user } = useRegistration()
   const { externalToken } = useAuth()
+  const router = useRouter()
 
   const form = useForm<BrotherhoodRegistrationFormValues>({
     defaultValues: defaultValues ?? {
@@ -118,11 +120,8 @@ export default function BrotherhoodForm({
   })
 
   const onSubmit = async (data: BrotherhoodRegistrationFormValues) => {
-    console.log("submitted")
-
     if (isEditMode) {
-      console.log("edit mode!")
-
+      console.log("TODO: edit mode")
       return
     }
 
@@ -134,8 +133,6 @@ export default function BrotherhoodForm({
       throw new Error("No user found")
     }
 
-    console.log("creating brotherhood...")
-
     await createBrotherhoodAsync({
       user: {
         ...user,
@@ -143,6 +140,9 @@ export default function BrotherhoodForm({
       },
       brotherhood: data,
     })
+
+    // Redirect user to home after registration
+    router.push("/")
   }
 
   const name = useWatch({
@@ -304,7 +304,7 @@ export default function BrotherhoodForm({
                 <SelectContent>
                   <SelectItem value="JUST_MEN">Masculina</SelectItem>
                   <SelectItem value="JUST_WOMEN">Feminina</SelectItem>
-                  <SelectItem value="NO_RESTRICTION">Mista</SelectItem>
+                  <SelectItem value="NO_RESTRICTIONS">Mista</SelectItem>
                 </SelectContent>
               </Select>
               <FormMessage />

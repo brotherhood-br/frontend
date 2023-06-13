@@ -4,14 +4,20 @@ import "@/styles/globals.css"
 import { useEffect } from "react"
 import { Metadata } from "next"
 import { GoogleOAuthProvider } from "@react-oauth/google"
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import {
+  MutationCache,
+  QueryCache,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query"
 
 import { siteConfig } from "@/config/site"
 import { fontSans } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
 import { useAuth } from "@/hooks/useAuth"
+import { Toaster } from "@/components/ui/toaster"
+import { toast } from "@/components/ui/use-toast"
 import { SiteHeader } from "@/components/site-header"
-import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
 
 // export const metadata: Metadata = {
@@ -38,7 +44,21 @@ interface RootLayoutProps {
 const googleClientId =
   "43960775230-1o1aqgh85sn56nr1ai1kjktp62gf9ihc.apps.googleusercontent.com"
 
-const queryClient = new QueryClient()
+const handleGlobalErrors = (error: any) =>
+  toast({
+    title: "Um erro aconteceu durante uma requisição 😥",
+    description: error.message ?? "",
+    variant: "destructive",
+  })
+
+const queryClient = new QueryClient({
+  mutationCache: new MutationCache({
+    onError: handleGlobalErrors,
+  }),
+  queryCache: new QueryCache({
+    onError: handleGlobalErrors,
+  }),
+})
 
 export default function RootLayout({ children }: RootLayoutProps) {
   const { login } = useAuth()
@@ -77,7 +97,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
                   <SiteHeader />
                   <div className="mx-4 flex-1">{children}</div>
                 </div>
-                <TailwindIndicator />
+                <Toaster />
               </ThemeProvider>
             </GoogleOAuthProvider>
           </QueryClientProvider>

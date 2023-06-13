@@ -42,6 +42,7 @@ export default function SignInPage() {
             >
               Termos de Serviço
             </Link>
+            .
           </p>
         </footer>
       </div>
