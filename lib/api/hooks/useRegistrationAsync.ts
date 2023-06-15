@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 
-import { BrotherhoodRegistrationFormValues } from "@/app/republica/form"
+import { BrotherhoodRegistrationFormValues } from "@/app/republica/brotherhood-form"
 import { UserRegistrationFormValues } from "@/app/usuario/registrar/page"
 
 import { api } from "../api"

@@ -1,5 +1,6 @@
 import { create } from "zustand"
-import { persist } from "zustand/middleware"
+
+import { getNameInitials } from "@/lib/utils"
 
 type User = {
   id: string
@@ -21,16 +22,6 @@ type AuthState = {
   externalLogin: (token: string) => void
 }
 
-function getInitials(name: string) {
-  const words = name.split(" ")
-  const initials = words
-    .map((word) => word.charAt(0))
-    .join("")
-    .toUpperCase()
-    .substring(0, 2)
-  return initials
-}
-
 export const useAuth = create<AuthState>((set) => ({
   user: null,
   isAuthenticated: false,
@@ -39,7 +30,7 @@ export const useAuth = create<AuthState>((set) => ({
     set({
       user: {
         ...user,
-        initials: getInitials(user.name),
+        initials: getNameInitials(user.name),
         isAdmin: user.role === "admin",
       },
       isAuthenticated: true,

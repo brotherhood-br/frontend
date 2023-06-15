@@ -1,6 +1,6 @@
 "use client"
 
-import BrotherhoodForm from "../form"
+import BrotherhoodForm from "../brotherhood-form"
 
 export default function BrotherhoodRegistrationPage() {
   // TODO: fetch from api

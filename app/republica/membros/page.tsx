@@ -21,7 +21,7 @@ export default function BrotherhoodMemberPage() {
             <Avatar className="h-14 w-14">
               <AvatarImage src="https://github.com/shadcn.png" />
               {/* TODO: fix fallback */}
-              {/* <AvatarFallback>{getInitials(name)}</AvatarFallback> */}
+              {/* <AvatarFallback>{getNameInitials(name)}</AvatarFallback> */}
             </Avatar>
             <div className="mr-auto">
               <h3 className="text-xl font-bold">Vanderli</h3>

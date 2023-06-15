@@ -7,6 +7,7 @@ import { useForm, useWatch } from "react-hook-form"
 import { z } from "zod"
 
 import { useRegistrationAsync } from "@/lib/api/hooks/useRegistrationAsync"
+import { getNameInitials } from "@/lib/utils"
 import { useAuth } from "@/hooks/useAuth"
 import { useRegistration } from "@/hooks/useRegistration"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -84,16 +85,6 @@ export interface BrotherhoodFormProps {
   defaultValues?: BrotherhoodRegistrationFormValues
 }
 
-function getInitials(name: string) {
-  const words = name.split(" ")
-  const initials = words
-    .map((word) => word.charAt(0))
-    .join("")
-    .toUpperCase()
-    .substring(0, 2)
-  return initials
-}
-
 export default function BrotherhoodForm({
   defaultValues,
 }: BrotherhoodFormProps) {
@@ -155,7 +146,7 @@ export default function BrotherhoodForm({
       {/* TODO: avatar/cover clickable to edit */}
       <Avatar>
         <AvatarImage src="https://github.com/shadcn.png" />
-        <AvatarFallback>{getInitials(name)}</AvatarFallback>
+        <AvatarFallback>{getNameInitials(name)}</AvatarFallback>
       </Avatar>
 
       <form onSubmit={form.handleSubmit(onSubmit)} className="mb-8 space-y-8">

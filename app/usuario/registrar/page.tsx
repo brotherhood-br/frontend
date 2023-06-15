@@ -59,6 +59,9 @@ export default function RegistrationPage() {
 
   const onSubmit = (values: UserRegistrationFormValues) => {
     setUser(values)
+
+    // Check if the user is an Admin
+
     router.push("/republica/registrar")
   }
 
