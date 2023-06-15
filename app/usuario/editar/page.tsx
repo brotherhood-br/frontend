@@ -66,7 +66,7 @@ export default function UserEdit() {
 
         <div>
           <h1 className="text-2xl font-bold text-gray-900">{user?.name}</h1>
-          <p className="text-sm text-slate-500">{user?.email}</p>
+          <p className="text-sm text-slate-500">nono@gmail.com</p>
         </div>
       </header>
 
