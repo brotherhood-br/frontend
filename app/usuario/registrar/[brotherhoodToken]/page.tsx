@@ -30,5 +30,15 @@ export default function MemberRegistrationPage({
     router.push("/")
   }
 
-  return <UserRegistrationForm onSubmit={onSubmit} />
+  return (
+    <>
+      <div className="mb-6 space-y-1">
+        <h3 className="text-lg font-medium">Entrar em uma república</h3>
+        <p className="text-sm text-muted-foreground">
+          Faltam só alguns dados para você ter acesso a sua república!
+        </p>
+      </div>
+      <UserRegistrationForm onSubmit={onSubmit} />
+    </>
+  )
 }

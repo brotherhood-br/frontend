@@ -29,7 +29,7 @@ const BrotherhoodHomeAdmin = () => {
     e.stopPropagation()
     e.nativeEvent.stopImmediatePropagation()
 
-    const link = `${window.location.origin}/usuario/registrar/${data?.brotherhoodInviteToken}`
+    const link = `${window.location.origin}/login/${data?.brotherhoodInviteToken}`
 
     navigator.clipboard.writeText(link)
 
