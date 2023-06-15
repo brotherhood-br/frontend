@@ -71,6 +71,7 @@ export const useRegistrationAsync = () => {
         .url("/brotherhoods")
         .headers({ sso_token: values.user.token })
         .post(body)
+        .res()
     },
     {
       onSuccess: () => {
