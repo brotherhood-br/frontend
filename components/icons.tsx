@@ -14,6 +14,10 @@ import {
   Trash,
   Twitter,
   UserPlus,
+  Home,
+  CreditCard,
+  Users,
+  ClipboardList,
   type Icon as LucideIcon,
 } from "lucide-react"
 
@@ -34,6 +38,10 @@ export const Icons = {
   chevronsUpDown: ChevronsUpDown,
   trash: Trash,
   menu: Menu,
+  home: Home,
+  creditCard: CreditCard,
+  users: Users,
+  clipBoard: ClipboardList,
   logo: (props: LucideProps) => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
       <path

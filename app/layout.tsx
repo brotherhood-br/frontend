@@ -19,6 +19,7 @@ import { Toaster } from "@/components/ui/toaster"
 import { toast } from "@/components/ui/use-toast"
 import { SiteHeader } from "@/components/site-header"
 import { ThemeProvider } from "@/components/theme-provider"
+import { TabBar } from "@/components/tab-bar"
 
 // export const metadata: Metadata = {
 //   title: {
@@ -101,6 +102,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
               </ThemeProvider>
             </GoogleOAuthProvider>
           </QueryClientProvider>
+
+          <TabBar />
         </body>
       </html>
     </>
