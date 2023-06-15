@@ -1,6 +1,6 @@
 import { create } from "zustand"
 
-import { BrotherhoodRegistrationFormValues } from "@/app/republica/form"
+import { BrotherhoodRegistrationFormValues } from "@/app/republica/brotherhood-form"
 import { UserRegistrationFormValues } from "@/app/usuario/registrar/page"
 
 type RegistrationState = {

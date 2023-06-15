@@ -26,6 +26,9 @@ export default function SignInPage() {
             onSuccess={(response) => {
               if (!response.credential) throw new Error("No credential found")
               externalLogin(response.credential)
+
+              // Check if the user is already registered
+
               router.push("/usuario/registrar")
             }}
             onError={() => {

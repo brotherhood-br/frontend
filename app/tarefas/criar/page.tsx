@@ -62,8 +62,7 @@ const TasksFormValues = z.object({
   responsible: z.string().min(3, {
     message: "Responsável deve ter no mínimo 3 caracteres",
   }),
-  // TODO
-  frequency: z.ostring(),
+  frequency: z.enum(["WEEKLY", "MONTHLY", "NONE"]),
 })
 
 type TasksFormValues = z.input<typeof TasksFormValues>
@@ -74,7 +73,6 @@ export default function TasksCreatePage() {
       title: "",
       description: "",
       responsible: "",
-      frequency: "",
     },
   })
 
@@ -229,9 +227,9 @@ export default function TasksCreatePage() {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="daily">Diário</SelectItem>
-                    <SelectItem value="weekly">Semanal</SelectItem>
-                    <SelectItem value="monthly">Mensal</SelectItem>
+                    <SelectItem value="NONE">Nenhuma</SelectItem>
+                    <SelectItem value="WEEKLY">Semanal</SelectItem>
+                    <SelectItem value="MONTHLY">Mensal</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
