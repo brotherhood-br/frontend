@@ -5,6 +5,7 @@ import Link from "next/link"
 import { format } from "date-fns"
 import ptBR from "date-fns/locale/pt-BR"
 
+import { TaskStatus, useTasksAsync } from "@/lib/api/hooks/useTasksAsync"
 import { getNameInitials } from "@/lib/utils"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
@@ -20,42 +21,6 @@ export interface TileProps {
   value: string
 }
 
-type TaskStatus = "FINISHED" | "LATE" | "PENDING"
-
-// Freqeuncy types [WEEKLY, MONTHLY, NONE]
-const tasksMock = [
-  {
-    id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    title: "Lavar Banheiro",
-    responsibleName: "Lucas",
-    responsibleImg: "",
-    description: "Sint laboris do aute in aute labore culpa.",
-    expiresOn: "2023-06-22T00:05:48.755Z",
-    frequency: "NONE",
-    status: "FINISHED",
-  },
-  {
-    id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    title: "Dar banho no totó",
-    responsibleName: "Guedes",
-    responsibleImg: "",
-    description: "Sint laboris do aute in aute labore culpa.",
-    expiresOn: "2023-12-01T11:05:48.755Z",
-    frequency: "NONE",
-    status: "LATE",
-  },
-  {
-    id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    title: "Colocar roupa para secar",
-    responsibleName: "Marotta",
-    responsibleImg: "",
-    description: "Sint laboris do aute in aute labore culpa.",
-    expiresOn: "2023-06-15T00:05:48.755Z",
-    frequency: "NONE",
-    status: "AVAILABLE",
-  },
-]
-
 const Tile = ({ children, count, value }: TileProps) => (
   <Label
     htmlFor={value}
@@ -69,8 +34,13 @@ const Tile = ({ children, count, value }: TileProps) => (
 
 export default function TasksPages() {
   const [filter, setFilter] = useState<TaskStatus | null>(null)
+  const { data } = useTasksAsync()
 
-  const data = tasksMock
+  if (!data) {
+    return null
+  }
+
+  const tasks = data.tasks
     .filter((t) => filter === null || t.status === filter)
     .sort((a, b) => {
       const dateA = new Date(a.expiresOn)
@@ -89,20 +59,20 @@ export default function TasksPages() {
           className="flex gap-4 overflow-x-auto"
           onValueChange={(e) => setFilter(e as TaskStatus)}
         >
-          <Tile count={5} value="LATE">
+          <Tile count={data.counterCarousel.late} value="LATE">
             Atrasado
           </Tile>
-          <Tile count={7} value="AVAILABLE">
+          <Tile count={data.counterCarousel.available} value="AVAILABLE">
             Disponível
           </Tile>
-          <Tile count={2} value="FINISHED">
+          <Tile count={data.counterCarousel.finished} value="FINISHED">
             Finalizado
           </Tile>
         </RadioGroup>
       </section>
 
       <section className="space-y-8">
-        {data.map((item) => {
+        {tasks.map((item) => {
           const expiresOn = new Date(item.expiresOn)
           const day = format(expiresOn, "dd")
           const month = format(expiresOn, "MMM", { locale: ptBR })
@@ -129,9 +99,15 @@ export default function TasksPages() {
                   </Avatar>
                 </CardContent>
                 <CardFooter>
-                  <Badge variant="destructive">Atrasado</Badge>
-                  {/* <Badge variant="secondary">Disponível</Badge>
-                  <Badge variant="outline">Finalizado</Badge> */}
+                  {item.status === "LATE" && (
+                    <Badge variant="destructive">Atrasado</Badge>
+                  )}
+                  {item.status === "PENDING" && (
+                    <Badge variant="secondary">Disponível</Badge>
+                  )}
+                  {item.status === "FINISHED" && (
+                    <Badge variant="outline">Finalizado</Badge>
+                  )}
                 </CardFooter>
               </Link>
             </Card>

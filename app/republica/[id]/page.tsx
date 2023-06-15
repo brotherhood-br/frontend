@@ -2,13 +2,19 @@
 
 import Image from "next/image"
 
-import { useAuth } from "@/hooks/useAuth"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 
-export default function BrotherhoodProfilePage() {
-  const { user } = useAuth()
+interface BrotherhoodProfilePageProps {
+  params: { id: string }
+}
+
+export default function BrotherhoodProfilePage({
+  params,
+}: BrotherhoodProfilePageProps) {
+  // TODO: fetch brotherhood data
+  // TODO: remove header and bottom menu
 
   return (
     <>
@@ -28,7 +34,7 @@ export default function BrotherhoodProfilePage() {
           <div className="relative">
             <Avatar>
               <AvatarImage src="https://github.com/shadcn.png" />
-              <AvatarFallback>{user?.initials}</AvatarFallback>
+              <AvatarFallback>{"LA"}</AvatarFallback>
             </Avatar>
 
             <div className="absolute inset-0 rounded-full shadow-inner" />
