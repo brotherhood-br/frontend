@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm, useWatch } from "react-hook-form"
 import { z } from "zod"
 
+import { api } from "@/lib/api"
 import { useRegistrationAsync } from "@/lib/api/hooks/useRegistrationAsync"
 import { getNameInitials } from "@/lib/utils"
 import { useAuth } from "@/hooks/useAuth"
@@ -29,6 +30,10 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
+import { toast } from "@/components/ui/use-toast"
+import { Icons } from "@/components/icons"
+
+import { HomeResponse } from "../page"
 
 const brotherhoodRegistrationFormSchema = z.object({
   name: z
@@ -91,7 +96,7 @@ export default function BrotherhoodForm({
   const isEditMode = !!defaultValues
   const { mutateAsync: createBrotherhoodAsync } = useRegistrationAsync()
   const { user } = useRegistration()
-  const { externalToken } = useAuth()
+  const { externalToken, login } = useAuth()
   const router = useRouter()
 
   const form = useForm<BrotherhoodRegistrationFormValues>({
@@ -109,6 +114,8 @@ export default function BrotherhoodForm({
     },
     resolver: zodResolver(brotherhoodRegistrationFormSchema),
   })
+
+  const { isSubmitting } = form.formState
 
   const onSubmit = async (data: BrotherhoodRegistrationFormValues) => {
     if (isEditMode) {
@@ -130,6 +137,28 @@ export default function BrotherhoodForm({
         token: externalToken,
       },
       brotherhood: data,
+    })
+
+    const userData = await api
+      .url("/home")
+      .headers({ sso_token: externalToken })
+      .get()
+      .fetchError(() => {
+        toast({
+          title: "Erro",
+          description: "Não foi possível fazer login",
+          variant: "destructive",
+        })
+      })
+      .json<HomeResponse>()
+
+    login({
+      user: {
+        id: userData.userId,
+        name: userData.userName,
+        role: userData.userType,
+        avatar: userData.brotherhoodLogo,
+      },
     })
 
     // Redirect user to home after registration
@@ -324,11 +353,13 @@ export default function BrotherhoodForm({
               </Button>
             </Link>
             <Button className="w-full" type="submit">
+              {isSubmitting ? <Icons.spinner className="animate-spin" /> : null}
               Confirmar edição
             </Button>
           </div>
         ) : (
           <Button className="mt-auto w-full" type="submit">
+            {isSubmitting ? <Icons.spinner className="animate-spin" /> : null}
             Criar minha república
           </Button>
         )}

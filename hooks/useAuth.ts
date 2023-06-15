@@ -1,11 +1,13 @@
+"use client"
+
 import { create } from "zustand"
+import { persist } from "zustand/middleware"
 
 import { getNameInitials } from "@/lib/utils"
 
 type User = {
   id: string
   name: string
-  // email: string TODO: check this
   avatar: string
   initials: string
   role: "ADMIN" | "RESIDENT"
@@ -24,34 +26,44 @@ type AuthState = {
     token,
   }: {
     user: Omit<User, "isAdmin" | "initials">
-    token: string
+    token?: string
   }) => void
 }
 
-export const useAuth = create<AuthState>((set) => ({
-  user: null,
-  isAuthenticated: false,
-  externalToken: null,
-  setExternalToken: (token) => {
-    localStorage.setItem("token", token)
-    set({ externalToken: token })
-  },
-  logout: () => {
-    localStorage.setItem("token", "")
+export const useAuth = create(
+  persist<AuthState>(
+    (set) => ({
+      user: null,
+      isAuthenticated: false,
+      externalToken: null,
+      setExternalToken: (token) => {
+        localStorage.setItem("token", token)
 
-    set({ user: null, isAuthenticated: false, externalToken: null })
-  },
-  login: ({ token, user }) => {
-    localStorage.setItem("token", token)
-
-    set({
-      externalToken: token,
-      user: {
-        ...user,
-        initials: getNameInitials(user.name),
-        isAdmin: user.role === "ADMIN",
+        set({ externalToken: token })
       },
-      isAuthenticated: true,
-    })
-  },
-}))
+      logout: () => {
+        localStorage.setItem("token", "")
+
+        set({ user: null, isAuthenticated: false, externalToken: null })
+      },
+      login: ({ token, user }) => {
+        if (token) {
+          localStorage.setItem("token", token)
+        }
+
+        set({
+          externalToken: token,
+          user: {
+            ...user,
+            initials: getNameInitials(user.name),
+            isAdmin: user.role === "ADMIN",
+          },
+          isAuthenticated: true,
+        })
+      },
+    }),
+    {
+      name: "auth",
+    }
+  )
+)

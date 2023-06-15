@@ -8,18 +8,7 @@ import { api } from "@/lib/api"
 import { useAuth } from "@/hooks/useAuth"
 import { toast } from "@/components/ui/use-toast"
 
-interface HomeResponse {
-  brotherhoodLogo: string
-  brotherhoodBanner: string
-  userId: string
-  userName: string
-  userType: "ADMIN" | "RESIDENT"
-  tasks: {
-    id: string
-    title: string
-    expireDate: string
-  }[]
-}
+import { HomeResponse } from "../page"
 
 export default function SignInPage() {
   const { login, setExternalToken } = useAuth()
@@ -45,8 +34,7 @@ export default function SignInPage() {
                 .url("/home")
                 .headers({ sso_token: response.credential })
                 .get()
-                // TODO: change it to forbidden when the API is ready
-                .internalError(() => {
+                .forbidden(() => {
                   // User is not registered
                   setExternalToken(response.credential!)
                   router.push("/usuario/registrar")
@@ -62,8 +50,6 @@ export default function SignInPage() {
 
               if (!userData) return
 
-              console.log("userData", userData)
-
               login({
                 user: {
                   id: userData.userId,
@@ -73,6 +59,8 @@ export default function SignInPage() {
                 },
                 token: response.credential,
               })
+
+              router.push("/")
             }}
             onError={() => {
               console.error("Login Failed")
