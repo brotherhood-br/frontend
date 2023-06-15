@@ -20,10 +20,9 @@ export interface TileProps {
   value: string
 }
 
-type TaskStatus = "DONE" | "LATE" | "PENDING"
+type TaskStatus = "FINISHED" | "LATE" | "PENDING"
 
 // Freqeuncy types [WEEKLY, MONTHLY, NONE]
-// TODO: add status to the backend's response w/ Marotta and Guedes
 const tasksMock = [
   {
     id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
@@ -33,7 +32,7 @@ const tasksMock = [
     description: "Sint laboris do aute in aute labore culpa.",
     expiresOn: "2023-06-22T00:05:48.755Z",
     frequency: "NONE",
-    status: "DONE",
+    status: "FINISHED",
   },
   {
     id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
@@ -96,7 +95,7 @@ export default function TasksPages() {
           <Tile count={7} value="AVAILABLE">
             Disponível
           </Tile>
-          <Tile count={2} value="DONE">
+          <Tile count={2} value="FINISHED">
             Finalizado
           </Tile>
         </RadioGroup>
