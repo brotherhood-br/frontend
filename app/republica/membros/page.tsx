@@ -1,4 +1,12 @@
-import { Avatar, AvatarImage } from "@/components/ui/avatar"
+"use client"
+
+import {
+  useMembersAsync,
+  useRemoveMemberAsync,
+} from "@/lib/api/hooks/useUsersAsync"
+import { getNameInitials } from "@/lib/utils"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import {
   DropdownMenu,
@@ -8,38 +16,46 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Icons } from "@/components/icons"
 
-// TODO: create button plus to add new member (like material design)
-
 export default function BrotherhoodMemberPage() {
+  const { data } = useMembersAsync()
+  const { mutateAsync: removeMemberAsync } = useRemoveMemberAsync()
+
   return (
     <div>
-      <h1>Republica X - Membros</h1>
+      <h1>Membros</h1>
 
       <section className="space-y-8">
-        <Card>
-          <CardContent className="flex flex-row items-center gap-4 p-4">
-            <Avatar className="h-14 w-14">
-              <AvatarImage src="https://github.com/shadcn.png" />
-              {/* TODO: fix fallback */}
-              {/* <AvatarFallback>{getNameInitials(name)}</AvatarFallback> */}
-            </Avatar>
-            <div className="mr-auto">
-              <h3 className="text-xl font-bold">Vanderli</h3>
-              <span className="text-slate-600">Administrador</span>
-            </div>
+        {data?.map((item) => (
+          <Card>
+            <CardContent className="flex flex-row items-center gap-4 p-4">
+              <Avatar className="h-14 w-14">
+                <AvatarImage src={item.image} />
+                <AvatarFallback>{getNameInitials(item.name)}</AvatarFallback>
+              </Avatar>
+              <div className="mr-auto">
+                <h3 className="text-xl font-bold">{item.name}</h3>
+                <span className="text-slate-600">Administrador</span>
+              </div>
 
-            <DropdownMenu>
-              <DropdownMenuTrigger>
-                <Icons.moreVertical className="h-6 w-6" />
-              </DropdownMenuTrigger>
+              {/* TODO: add condition based on the user role */}
+              {true && (
+                <DropdownMenu>
+                  <DropdownMenuTrigger>
+                    <Icons.moreVertical className="h-6 w-6" />
+                  </DropdownMenuTrigger>
 
-              <DropdownMenuContent>
-                {/* TODO: get link  */}
-                <DropdownMenuItem>Remover usuário</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </CardContent>
-        </Card>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem
+                      onClick={() => removeMemberAsync(item.id)}
+                    >
+                      Remover usuário
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              )}
+            </CardContent>
+          </Card>
+        ))}
       </section>
     </div>
   )
