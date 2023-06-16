@@ -8,15 +8,18 @@ import { getNameInitials } from "@/lib/utils"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Card, CardContent } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
+import { Skeleton } from "@/components/ui/skeleton"
 import { Icons } from "@/components/icons"
 
 // TODO: create a log out button
 
 export interface HomeResponse {
+  brotherhoodName: string
   brotherhoodLogo: string
   brotherhoodBanner: string
   userId: string
   userName: string
+  userPicture: string
   userType: "ADMIN" | "RESIDENT"
   tasks: {
     id: string
@@ -28,24 +31,29 @@ export interface HomeResponse {
 export default function IndexPage() {
   const { data, isLoading } = useHomeAsync()
 
-  if (data === undefined) return null
-  // <div className="flex items-center justify-center h-screen">
-  //   <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
-  // </div>
-
   return (
     <>
       <Link href="/usuario/editar">
-        {data !== undefined && (
+        {!!data && (
           <header className="flex gap-6">
             <Avatar className="h-16 w-16">
-              <AvatarImage src={data.brotherhoodLogo} />
+              <AvatarImage src={data.userPicture} />
               <AvatarFallback>{getNameInitials(data.userName)}</AvatarFallback>
             </Avatar>
 
             <div className="mr-auto">
-              <h1 className="text-2xl font-bold">República X</h1>
-              <span>Olá, {data.userName}</span>
+              <h1 className="text-2xl font-bold">{data.brotherhoodName}</h1>
+              <span>Olá, {data.userName}!</span>
+            </div>
+          </header>
+        )}
+        {isLoading && (
+          <header className="flex gap-6">
+            <Skeleton className="h-[64px] w-[64px] rounded-full" />
+
+            <div className="mr-auto space-y-1">
+              <Skeleton className="h-[32px] w-[200px]" />
+              <Skeleton className="h-[20px] w-[120px]" />
             </div>
           </header>
         )}
@@ -56,9 +64,32 @@ export default function IndexPage() {
       <h1 className="mb-4 text-xl font-bold">Minhas Tarefas</h1>
       <section className="space-y-4">
         {isLoading && (
-          <div className="flex h-screen items-center justify-center">
-            <div className="h-32 w-32 animate-spin rounded-full border-b-2 border-gray-900"></div>
-          </div>
+          <>
+            <Card>
+              <CardContent className="flex items-center p-6">
+                <div className="mr-auto space-y-1">
+                  <Skeleton className="h-[32px] w-[120px]" />
+                  <Skeleton className="h-[32px] w-[250px]" />
+                </div>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="flex items-center p-6">
+                <div className="mr-auto space-y-1">
+                  <Skeleton className="h-[32px] w-[120px]" />
+                  <Skeleton className="h-[32px] w-[250px]" />
+                </div>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="flex items-center p-6">
+                <div className="mr-auto space-y-1">
+                  <Skeleton className="h-[32px] w-[120px]" />
+                  <Skeleton className="h-[32px] w-[250px]" />
+                </div>
+              </CardContent>
+            </Card>
+          </>
         )}
         {data?.tasks.map((item) => {
           const date = new Date(item.expireDate)
@@ -80,6 +111,23 @@ export default function IndexPage() {
             </Card>
           )
         })}
+        {!isLoading && data?.tasks.length === 0 && (
+          <Card>
+            <Link href={`/tarefas/criar`}>
+              <CardContent className="flex items-center gap-4 px-6 py-12">
+                <Icons.bird className="h-10 w-10 text-slate-400" />
+                <div className="mr-auto">
+                  <h3 className="text-lg font-bold">
+                    Você não possui tarefas!
+                  </h3>
+                  <p className="text-slate-600">
+                    Clique aqui para criar agora mesmo
+                  </p>
+                </div>
+              </CardContent>
+            </Link>
+          </Card>
+        )}
       </section>
     </>
   )
