@@ -31,7 +31,7 @@ export default function FinancesPage() {
 
   return (
     <div>
-      <h1>Finanças</h1>
+      <h1 className="mb-6 text-2xl font-bold">Finanças</h1>
 
       <div className="mt-6">
         <h2 className="text-md flex justify-center uppercase text-gray-500">
@@ -90,7 +90,7 @@ export default function FinancesPage() {
           <Button
             variant="outline"
             color="primary"
-            className="fixed bottom-[5rem] right-4 z-50 h-14 w-14 rounded-full bg-black text-white shadow-lg"
+            className="fixed bottom-[6rem] right-4 z-50 h-14 w-14 rounded-full bg-black text-white shadow-lg"
           >
             <Icons.plus />
           </Button>

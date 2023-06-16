@@ -48,7 +48,7 @@ const BrotherhoodHomeAdmin = () => {
 
   return (
     <div>
-      <h1>Brotherhood Home</h1>
+      <h1 className="mb-6 text-2xl font-bold">Minha República</h1>
 
       <section className="space-y-8">
         <Card

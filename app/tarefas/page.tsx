@@ -51,7 +51,7 @@ export default function TasksPages() {
 
   return (
     <div>
-      <h1>Tasks</h1>
+      <h1 className="mb-6 text-2xl font-bold">Tarefas</h1>
 
       <section className="mb-8 space-x-4">
         <RadioGroup
@@ -119,7 +119,7 @@ export default function TasksPages() {
         <Button
           variant="outline"
           color="primary"
-          className="fixed bottom-[5rem] right-4 z-50 h-14 w-14 rounded-full bg-black text-white shadow-lg"
+          className="fixed bottom-[6rem] right-4 z-50 h-14 w-14 rounded-full bg-black text-white shadow-lg"
         >
           <Icons.plus />
         </Button>
