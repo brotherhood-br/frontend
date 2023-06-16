@@ -68,7 +68,11 @@ const tokenSchema = z.object({
   exp: z.number(),
 })
 
+const checkIfIsServerSide = () => typeof window === "undefined"
+
 export const checkUserSession = () => {
+  if (checkIfIsServerSide()) return
+
   const storage = localStorage.getItem(storageKey) ?? ""
   const externalToken = JSON.parse(storage)?.state.externalToken
 
