@@ -1,5 +1,8 @@
 "use client"
 
+import { redirect } from "next/navigation"
+import jwtDecode from "jwt-decode"
+import z from "zod"
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
 
@@ -60,3 +63,20 @@ export const useAuth = create(
     }
   )
 )
+
+const tokenSchema = z.object({
+  exp: z.number(),
+})
+
+export const checkUserSession = () => {
+  const { externalToken } = useAuth.getState()
+
+  if (!externalToken) return redirect("/login")
+
+  const token = jwtDecode(externalToken)
+  const tokenData = tokenSchema.safeParse(token)
+
+  if (!tokenData.success) return redirect("/login")
+
+  if (tokenData.data.exp * 1000 < Date.now()) return redirect("/login")
+}
