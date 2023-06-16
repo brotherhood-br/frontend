@@ -5,11 +5,12 @@ import { useRouter } from "next/navigation"
 import { useBrotherhoodHomeAdminAsync } from "@/lib/api/hooks/useBrotherhoodAsync"
 import { useAuth } from "@/hooks/useAuth"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Skeleton } from "@/components/ui/skeleton"
 import { toast } from "@/components/ui/use-toast"
 import { Icons } from "@/components/icons"
 
 const BrotherhoodHomeAdmin = () => {
-  const { data } = useBrotherhoodHomeAdminAsync()
+  const { data, isLoading } = useBrotherhoodHomeAdminAsync()
   const router = useRouter()
 
   const handleShareProfile = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -56,7 +57,11 @@ const BrotherhoodHomeAdmin = () => {
             <Icons.share className="h-6 w-6" onClick={handleShareProfile} />
           </CardHeader>
           <CardContent>
-            <p className="text-6xl">{data?.viewCount}</p>
+            {isLoading ? (
+              <Skeleton className="h-[60px] w-[80px]" />
+            ) : (
+              <p className="text-6xl">{data?.viewCount}</p>
+            )}
             <span>
               visualizações
               <br /> (últimos 30 dias)
@@ -74,10 +79,15 @@ const BrotherhoodHomeAdmin = () => {
             <Icons.userPlus className="h-6 w-6" onClick={handleShareInvite} />
           </CardHeader>
           <CardContent>
-            <p className="text-6xl">
-              {data?.occupation}
-              <span className="text-xl text-gray-700">/{data?.capacity}</span>
-            </p>
+            {isLoading ? (
+              <Skeleton className="h-[60px] w-[80px]" />
+            ) : (
+              <p className="text-6xl">
+                {data?.occupation}
+                <span className="text-xl text-gray-700">/{data?.capacity}</span>
+              </p>
+            )}
+
             <span>cadastrados</span>
           </CardContent>
         </Card>
