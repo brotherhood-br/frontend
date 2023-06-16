@@ -46,7 +46,9 @@ const BrotherhoodHomeAdmin = () => {
       <section className="space-y-8">
         <Card
           className="cursor-pointer"
-          onClick={() => router.push("/republica/editar")}
+          onClick={() =>
+            router.push(`/republica/${data?.brotherhoodId}/editar`)
+          }
         >
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-md font-medium">Perfil</CardTitle>

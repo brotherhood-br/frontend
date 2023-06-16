@@ -1,10 +1,14 @@
 "use client"
 
-import BrotherhoodForm from "../brotherhood-form"
+import BrotherhoodForm from "../../brotherhood-form"
 
-export default function BrotherhoodRegistrationPage() {
-  // TODO: fetch from api
+interface BrotherhoodRegistrationPageProps {
+  params: { id: string }
+}
 
+export default function BrotherhoodRegistrationPage({
+  params,
+}: BrotherhoodRegistrationPageProps) {
   return (
     <BrotherhoodForm
       defaultValues={{
