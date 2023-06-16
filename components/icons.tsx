@@ -4,7 +4,6 @@ import {
   ChevronsUpDown,
   ClipboardList,
   CreditCard,
-  Home,
   Loader2,
   LucideProps,
   Menu,
@@ -20,6 +19,14 @@ import {
   Users,
   type Icon as LucideIcon,
 } from "lucide-react"
+import BankCardFill from "remixicon-react/BankCard2FillIcon"
+import BankCard from "remixicon-react/BankCard2LineIcon"
+import HomeFill from "remixicon-react/Home2FillIcon"
+import Home from "remixicon-react/Home2LineIcon"
+import HotelFill from "remixicon-react/HotelFillIcon"
+import Hotel from "remixicon-react/HotelLineIcon"
+import TodoFill from "remixicon-react/TodoFillIcon"
+import Todo from "remixicon-react/TodoLineIcon"
 
 export type Icon = LucideIcon
 
@@ -39,7 +46,13 @@ export const Icons = {
   trash: Trash,
   menu: Menu,
   home: Home,
-  creditCard: CreditCard,
+  homeFill: HomeFill,
+  hotel: Hotel,
+  hotelFill: HotelFill,
+  creditCard: BankCard,
+  creditCardFill: BankCardFill,
+  todo: Todo,
+  todoFill: TodoFill,
   users: Users,
   clipBoard: ClipboardList,
   bird: (props: LucideProps) => (

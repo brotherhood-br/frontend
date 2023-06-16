@@ -26,39 +26,59 @@ export function TabBar() {
   return (
     <div className="sticky inset-x-0 bottom-0 flex h-[4.2rem] w-screen items-center justify-between rounded-t-lg border-t border-gray-200 bg-background px-4 pb-2 shadow-2xl">
       <button
-        className={`flex flex-col items-center justify-center text-gray-500 hover:text-accent ${
-          isHome ? "text-accent" : ""
+        className={`flex flex-col items-center justify-center ${
+          isHome ? "text-gray-900" : "text-slate-400"
         }`}
         onClick={() => router.push("/")}
       >
-        <Icons.home className="mb-1 h-6 w-6" />
+        {isHome ? (
+          <Icons.homeFill className="mb-1 h-6 w-6" />
+        ) : (
+          <Icons.home className="mb-1 h-6 w-6" />
+        )}
+
         <span className="text-xs">Home</span>
       </button>
       <button
-        className={`flex flex-col items-center justify-center text-gray-500 hover:text-accent ${
-          isBrotherhood ? "text-accent" : ""
+        className={`flex flex-col items-center justify-center ${
+          isBrotherhood ? "text-gray-900" : "text-slate-400"
         }`}
         onClick={() => router.push("/republica")}
       >
-        <Icons.users className="mb-1 h-6 w-6" />
+        {isBrotherhood ? (
+          <Icons.hotelFill className="mb-1 h-6 w-6" />
+        ) : (
+          <Icons.hotel className="mb-1 h-6 w-6" />
+        )}
+
         <span className="text-xs">República</span>
       </button>
       <button
-        className={`flex flex-col items-center justify-center text-gray-500 hover:text-accent ${
-          isFinance ? "text-accent" : ""
+        className={`flex flex-col items-center justify-center ${
+          isFinance ? "text-gray-900" : "text-slate-400"
         }`}
         onClick={() => router.push("/financas")}
       >
-        <Icons.creditCard className="mb-1 h-6 w-6" />
+        {isFinance ? (
+          <Icons.creditCardFill className="mb-1 h-6 w-6" />
+        ) : (
+          <Icons.creditCard className="mb-1 h-6 w-6" />
+        )}
+
         <span className="text-xs">Finanças</span>
       </button>
       <button
-        className={`flex flex-col items-center justify-center text-gray-500 hover:text-accent ${
-          isTask ? "text-accent" : ""
+        className={`flex flex-col items-center justify-center ${
+          isTask ? "text-gray-900" : "text-slate-400"
         }`}
         onClick={() => router.push("/tarefas")}
       >
-        <Icons.clipBoard className="mb-1 h-6 w-6" />
+        {isTask ? (
+          <Icons.todoFill className="mb-1 h-6 w-6" />
+        ) : (
+          <Icons.todo className="mb-1 h-6 w-6" />
+        )}
+
         <span className="text-xs">Tarefas</span>
       </button>
     </div>
