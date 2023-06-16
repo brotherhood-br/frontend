@@ -1,9 +1,14 @@
 "use client"
 
+import Image from "next/image"
 import { useRouter } from "next/navigation"
 
-import { useBrotherhoodHomeAdminAsync } from "@/lib/api/hooks/useBrotherhoodAsync"
+import {
+  useBrotherhoodDataAsync,
+  useBrotherhoodHomeAdminAsync,
+} from "@/lib/api/hooks/useBrotherhoodAsync"
 import { useAuth } from "@/hooks/useAuth"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import { toast } from "@/components/ui/use-toast"
@@ -100,8 +105,84 @@ const BrotherhoodHomeAdmin = () => {
   )
 }
 
+const translateType = (type: string | undefined) => {
+  switch (type) {
+    case "JUST_MEN":
+      return "Somente homens"
+
+    case "JUST_WOMEN":
+      return "Somente mulheres"
+
+    case "NO_RESTRICTIONS":
+      return "Sem restrições"
+  }
+}
+
 const BrotherhoodHomeMember = () => {
-  return <div>Member</div>
+  const { brotherhoodId } = useAuth()
+  const { data } = useBrotherhoodDataAsync(brotherhoodId ?? "")
+
+  return (
+    <div>
+      <div className="relative h-48 w-full md:h-64">
+        <div className="absolute inset-0">
+          <Image
+            src="/cover.jpg"
+            alt="Cover"
+            fill
+            objectFit="cover"
+            objectPosition="center"
+          />
+        </div>
+        <div className="absolute inset-0 rounded-t-lg bg-black opacity-30" />
+        <div className="absolute inset-0 flex items-end justify-center pb-4">
+          <div className="relative">
+            <Avatar className="h-[80px] w-[80px]">
+              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarFallback>{"LA"}</AvatarFallback>
+            </Avatar>
+          </div>
+        </div>
+      </div>
+
+      <h1 className="my-4 text-2xl font-bold">{data?.name}</h1>
+
+      <section className="space-y-4">
+        <div>
+          <p className="text-sm text-slate-500">Telefone</p>
+          <p className="text-md">{data?.phone}</p>
+        </div>
+
+        <div>
+          <p className="text-sm text-slate-500">Endereço</p>
+          <p className="text-md">
+            {data?.address.street}, {data?.address.number} -{" "}
+            {data?.address.city} {data?.address.state}
+          </p>
+        </div>
+
+        <div>
+          <p className="text-sm text-slate-500">Tipo</p>
+          <p className="text-md">{data?.type}</p>
+        </div>
+
+        <div>
+          <p className="text-sm text-slate-500">Tipo</p>
+          <p className="text-md">{translateType(data?.type)}</p>
+        </div>
+
+        <div>
+          <p className="text-sm text-slate-500">Lotação</p>
+          <p className="text-md">{data?.capacity}</p>
+        </div>
+
+        <div>
+          <p className="text-sm text-slate-500">Descrição</p>
+          <p className="text-md">{data?.description}</p>
+        </div>
+      </section>
+    </div>
+  )
 }
 
 export default function BrotherhoodHome() {

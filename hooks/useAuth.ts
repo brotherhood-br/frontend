@@ -19,6 +19,7 @@ interface User {
 
 export interface AuthState {
   user: User | null
+  brotherhoodId: string | null
   isAuthenticated: boolean
   /**
    * Used in protectedFetch to authenticate requests
@@ -30,9 +31,11 @@ export interface AuthState {
   login: ({
     user,
     token,
+    brotherhoodId,
   }: {
     user: Omit<User, "isAdmin" | "initials">
     token?: string
+    brotherhoodId: string
   }) => void
 }
 
@@ -42,20 +45,27 @@ export const useAuth = create(
   persist<AuthState>(
     (set) => ({
       user: null,
+      brotherhoodId: null,
       isAuthenticated: false,
       externalToken: null,
       setExternalToken: (token) => set({ externalToken: token }),
       logout: () =>
-        set({ user: null, isAuthenticated: false, externalToken: null }),
-      login: ({ token, user }) =>
+        set({
+          user: null,
+          isAuthenticated: false,
+          externalToken: null,
+          brotherhoodId: null,
+        }),
+      login: ({ token, user, brotherhoodId }) =>
         set({
           externalToken: token,
+          isAuthenticated: true,
+          brotherhoodId,
           user: {
             ...user,
             initials: getNameInitials(user.name),
             isAdmin: user.role === "ADMIN",
           },
-          isAuthenticated: true,
         }),
     }),
     {

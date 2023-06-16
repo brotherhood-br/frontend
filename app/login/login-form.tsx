@@ -62,6 +62,7 @@ export default function SignInForm({ inviteId }: SignInFormProps) {
         role: userData.userType,
         avatar: userData.brotherhoodLogo,
       },
+      brotherhoodId: "", // TODO
       token: response.credential,
     })
 
