@@ -1,16 +1,11 @@
 "use client"
 
 import Link from "next/link"
-import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm, useWatch } from "react-hook-form"
 import { z } from "zod"
 
-import { protectedFetch } from "@/lib/api"
-import { useRegistrationAsync } from "@/lib/api/hooks/useRegistrationAsync"
 import { getNameInitials } from "@/lib/utils"
-import { useAuth } from "@/hooks/useAuth"
-import { useRegistration } from "@/hooks/useRegistration"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import {
@@ -30,10 +25,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { toast } from "@/components/ui/use-toast"
 import { Icons } from "@/components/icons"
-
-import { HomeResponse } from "../page"
 
 const brotherhoodRegistrationFormSchema = z.object({
   name: z
@@ -88,16 +80,14 @@ export type BrotherhoodRegistrationFormValues = z.input<
 
 export interface BrotherhoodFormProps {
   defaultValues?: BrotherhoodRegistrationFormValues
+  onSubmit: (data: BrotherhoodRegistrationFormValues) => void
 }
 
 export default function BrotherhoodForm({
   defaultValues,
+  onSubmit,
 }: BrotherhoodFormProps) {
   const isEditMode = !!defaultValues
-  const { mutateAsync: createBrotherhoodAsync } = useRegistrationAsync()
-  const { user } = useRegistration()
-  const { externalToken, login } = useAuth()
-  const router = useRouter()
 
   const form = useForm<BrotherhoodRegistrationFormValues>({
     defaultValues: defaultValues ?? {
@@ -116,54 +106,6 @@ export default function BrotherhoodForm({
   })
 
   const { isSubmitting } = form.formState
-
-  const onSubmit = async (data: BrotherhoodRegistrationFormValues) => {
-    if (isEditMode) {
-      console.log("TODO: edit mode")
-      return
-    }
-
-    if (!externalToken) {
-      throw new Error("No external token found")
-    }
-
-    if (!user) {
-      throw new Error("No user found")
-    }
-
-    await createBrotherhoodAsync({
-      user: {
-        ...user,
-        token: externalToken,
-      },
-      brotherhood: data,
-    })
-
-    const userData = await protectedFetch()
-      .url("/home")
-      .headers({ sso_token: externalToken })
-      .get()
-      .fetchError(() => {
-        toast({
-          title: "Erro",
-          description: "Não foi possível fazer login",
-          variant: "destructive",
-        })
-      })
-      .json<HomeResponse>()
-
-    login({
-      user: {
-        id: userData.userId,
-        name: userData.userName,
-        role: userData.userType,
-        avatar: userData.brotherhoodLogo,
-      },
-    })
-
-    // Redirect user to home after registration
-    router.push("/")
-  }
 
   const name = useWatch({
     control: form.control,
