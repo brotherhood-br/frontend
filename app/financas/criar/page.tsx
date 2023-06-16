@@ -144,8 +144,10 @@ export default function BrotherhoodCreateFinance({
                 Cancelar
               </Button>
             </Link>
-            <Button className="w-full" type="submit">
-              {isSubmitting ? <Icons.spinner className="animate-spin" /> : null}
+            <Button className="w-full" type="submit" disabled={isSubmitting}>
+              {isSubmitting ? (
+                <Icons.spinner className="mr-2 animate-spin" />
+              ) : null}
               Criar Tarefa
             </Button>
           </div>

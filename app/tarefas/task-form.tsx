@@ -87,6 +87,8 @@ export default function TasksForm({ defaultValues, onSubmit }: TasksFormProps) {
     },
   })
 
+  const { isSubmitting } = form.formState
+
   return (
     <div>
       <Form {...form}>
@@ -251,12 +253,22 @@ export default function TasksForm({ defaultValues, onSubmit }: TasksFormProps) {
                   Cancelar
                 </Button>
               </Link>
-              <Button className="w-full" type="submit">
+              <Button className="w-full" type="submit" disabled={isSubmitting}>
+                {isSubmitting ? (
+                  <Icons.spinner className="mr-2 animate-spin" />
+                ) : null}
                 Confirmar edição
               </Button>
             </div>
           ) : (
-            <Button className="mt-auto w-full" type="submit">
+            <Button
+              className="mt-auto w-full"
+              type="submit"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? (
+                <Icons.spinner className="mr-2 animate-spin" />
+              ) : null}
               Criar tarefa
             </Button>
           )}

@@ -14,6 +14,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { Icons } from "@/components/icons"
 
 const registrationFormSchema = z.object({
   name: z
@@ -58,6 +59,8 @@ export default function UserRegistrationForm({
     },
     resolver: zodResolver(registrationFormSchema),
   })
+
+  const { isSubmitting } = form.formState
 
   return (
     <Form {...form}>
@@ -106,8 +109,19 @@ export default function UserRegistrationForm({
           )}
         />
 
-        <Button className="mt-auto w-full" type="submit">
-          Enviar
+        <Button
+          className="mt-auto w-full"
+          type="submit"
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? (
+            <>
+              <Icons.spinner className="mr-2 animate-spin" />
+              Enviando
+            </>
+          ) : (
+            "Enviar"
+          )}
         </Button>
       </form>
     </Form>

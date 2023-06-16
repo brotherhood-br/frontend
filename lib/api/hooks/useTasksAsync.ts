@@ -50,7 +50,7 @@ export const useCreateTasksAsync = () => {
     (values) => protectedFetch().url("/tasks").post(values).res(),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["tasks"])
+        queryClient.invalidateQueries(["tasks", "home"])
       },
     }
   )

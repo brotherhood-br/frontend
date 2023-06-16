@@ -69,9 +69,11 @@ const tokenSchema = z.object({
 })
 
 export const checkUserSession = () => {
-  const { externalToken } = useAuth.getState()
+  const storage = localStorage.getItem(storageKey) ?? ""
+  const externalToken = JSON.parse(storage)?.state.externalToken
 
-  if (!externalToken) return redirect("/login")
+  if (!externalToken && typeof window !== undefined) return redirect("/login")
+  if (!externalToken) return
 
   const token = jwtDecode(externalToken)
   const tokenData = tokenSchema.safeParse(token)
