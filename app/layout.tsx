@@ -50,14 +50,10 @@ export default function RootLayout({ children }: RootLayoutProps) {
     checkUserSession()
   }
 
-  const hideHeader =
-    pathname.includes("/republica/") &&
-    (!pathname.endsWith("membros") || !pathname.endsWith("registrar"))
+  const hideHeader = /^\/republica\/[0-9A-z-]{36}$/.test(pathname)
 
   const hideNav =
-    (pathname.includes("/republica/") &&
-      (!pathname.endsWith("membros") || !pathname.endsWith("registrar"))) ||
-    pathname.includes("/login")
+    /^\/republica\/[0-9A-z-]{36}$/.test(pathname) || pathname.includes("/login")
 
   return (
     <>
@@ -163,7 +159,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
                 defaultTheme="system"
                 enableSystem
               >
-                <div className="relative flex h-screen flex-col">
+                <div className="relative flex h-screen flex-col overflow-hidden">
                   {!hideHeader && <SiteHeader />}
                   <div className="mt-4 flex-1 overflow-auto">
                     <div className="mx-4 mb-4">{children}</div>
