@@ -1,6 +1,9 @@
 "use client"
 
-import Link from "next/link"
+import { useState } from "react"
+import { useRouter } from "next/navigation"
+import { googleLogout } from "@react-oauth/google"
+import { useQueryClient } from "@tanstack/react-query"
 import { format, parseISO } from "date-fns"
 import { useForm } from "react-hook-form"
 import z from "zod"
@@ -46,9 +49,10 @@ type UserEditFormValues = z.input<typeof userEditFormSchema>
 interface UserFormProps {
   defaultValues: UserEditFormValues
   onSubmit: (formData: UserEditFormValues) => void
+  onCancel?: () => void
 }
 
-const UserForm = ({ defaultValues, onSubmit }: UserFormProps) => {
+const UserForm = ({ defaultValues, onSubmit, onCancel }: UserFormProps) => {
   const form = useForm<UserEditFormValues>({
     defaultValues: defaultValues,
   })
@@ -88,11 +92,10 @@ const UserForm = ({ defaultValues, onSubmit }: UserFormProps) => {
         />
 
         <div className="mt-auto space-y-2 pb-8">
-          <Link href="/">
-            <Button className=" w-full" variant="secondary">
-              Cancelar
-            </Button>
-          </Link>
+          <Button className=" w-full" variant="secondary" onClick={onCancel}>
+            Cancelar
+          </Button>
+
           <Button className="w-full" type="submit">
             Confirmar edição
           </Button>
@@ -103,11 +106,22 @@ const UserForm = ({ defaultValues, onSubmit }: UserFormProps) => {
 }
 
 export default function UserEdit() {
-  const { user } = useAuth()
+  const [editMode, setEditMode] = useState(false)
+  const { user, logout } = useAuth()
   const { data, isLoading } = useUserProfileAsync(user?.id ?? "")
+  const router = useRouter()
+  const queryClient = useQueryClient()
 
   const onSubmit = (formData: UserEditFormValues) => {
     console.log(formData)
+  }
+
+  const onLogout = () => {
+    queryClient.cancelQueries()
+    queryClient.clear()
+    logout()
+    googleLogout()
+    router.push("/login")
   }
 
   return (
@@ -124,13 +138,50 @@ export default function UserEdit() {
         </div>
       </header>
       {!!data && (
-        <UserForm
-          defaultValues={{
-            birthDate: format(parseISO(data.birthdate), "dd/MM/yyyy"),
-            phone: data.phone,
-          }}
-          onSubmit={onSubmit}
-        />
+        <>
+          {!editMode && (
+            <section className="space-y-6">
+              <div>
+                <p className="text-slate-500">Data de nascimento</p>
+                <p className="text-md">
+                  {format(parseISO(data.birthdate), "dd/MM/yyyy")}
+                </p>
+              </div>
+
+              <div>
+                <p className="text-slate-500">Telefone</p>
+                <p className="text-md">{data.phone}</p>
+              </div>
+
+              <div className="space-y-2">
+                <Button
+                  className=" w-full"
+                  variant="secondary"
+                  onClick={() => setEditMode(true)}
+                >
+                  Editar perfil
+                </Button>
+                <Button
+                  className=" w-full"
+                  variant="destructive"
+                  onClick={onLogout}
+                >
+                  Sair
+                </Button>
+              </div>
+            </section>
+          )}
+          {editMode && (
+            <UserForm
+              defaultValues={{
+                birthDate: format(parseISO(data.birthdate), "dd/MM/yyyy"),
+                phone: data.phone,
+              }}
+              onSubmit={onSubmit}
+              onCancel={() => setEditMode(false)}
+            />
+          )}
+        </>
       )}
       {isLoading && <Icons.spinner className="h-6 w-6 animate-spin" />}
     </>

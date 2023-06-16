@@ -54,7 +54,9 @@ const BrotherhoodHomeAdmin = () => {
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-md font-medium">Perfil</CardTitle>
 
-            <Icons.share className="h-6 w-6" onClick={handleShareProfile} />
+            {!!data && (
+              <Icons.share className="h-6 w-6" onClick={handleShareProfile} />
+            )}
           </CardHeader>
           <CardContent>
             {isLoading ? (
@@ -76,7 +78,9 @@ const BrotherhoodHomeAdmin = () => {
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-md font-medium">Membros</CardTitle>
 
-            <Icons.userPlus className="h-6 w-6" onClick={handleShareInvite} />
+            {!!data && (
+              <Icons.userPlus className="h-6 w-6" onClick={handleShareInvite} />
+            )}
           </CardHeader>
           <CardContent>
             {isLoading ? (
