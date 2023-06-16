@@ -5,7 +5,7 @@ import { HomeResponse } from "@/app/page"
 import { protectedFetch } from "../api"
 
 export const useHomeAsync = () => {
-  return useQuery(["home"], () =>
+  return useQuery(["home", "brotherhood"], () =>
     protectedFetch().get("/home").json<HomeResponse>()
   )
 }

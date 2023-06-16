@@ -63,7 +63,7 @@ export const useBrotherhoodHomeAdminAsync = () =>
   )
 
 export const useBrotherhoodDataAsync = (id: string) =>
-  useQuery(["brotherhoods", id], () =>
+  useQuery(["brotherhood", id], () =>
     protectedFetch().get(`/brotherhoods/${id}`).json<BrotherhoodDataResponse>()
   )
 
@@ -95,7 +95,7 @@ export const useChangeBrotherhoodAsync = (id: string) => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["brotherhoods"])
+        queryClient.invalidateQueries(["brotherhood"])
       },
     }
   )
