@@ -1,7 +1,7 @@
 "use client"
 
 import "@/styles/globals.css"
-import { Metadata } from "next"
+import { usePathname, useRouter } from "next/navigation"
 import { GoogleOAuthProvider } from "@react-oauth/google"
 import {
   MutationCache,
@@ -10,31 +10,14 @@ import {
   QueryClientProvider,
 } from "@tanstack/react-query"
 
-import { siteConfig } from "@/config/site"
 import { fontSans } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
+import { checkUserSession } from "@/hooks/useAuth"
 import { Toaster } from "@/components/ui/toaster"
 import { toast } from "@/components/ui/use-toast"
 import { SiteHeader } from "@/components/site-header"
 import { TabBar } from "@/components/tab-bar"
 import { ThemeProvider } from "@/components/theme-provider"
-
-// export const metadata: Metadata = {
-//   title: {
-//     default: siteConfig.name,
-//     template: `%s - ${siteConfig.name}`,
-//   },
-//   description: siteConfig.description,
-//   themeColor: [
-//     { media: "(prefers-color-scheme: light)", color: "white" },
-//     { media: "(prefers-color-scheme: dark)", color: "black" },
-//   ],
-//   icons: {
-//     icon: "/favicon.ico",
-//     shortcut: "/favicon-16x16.png",
-//     apple: "/apple-touch-icon.png",
-//   },
-// }
 
 interface RootLayoutProps {
   children: React.ReactNode
@@ -60,6 +43,12 @@ const queryClient = new QueryClient({
 })
 
 export default function RootLayout({ children }: RootLayoutProps) {
+  const pathname = usePathname()
+
+  if (!["/login"].includes(pathname)) {
+    checkUserSession()
+  }
+
   return (
     <>
       <html lang="en" suppressHydrationWarning>

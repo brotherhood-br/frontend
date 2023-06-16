@@ -6,6 +6,7 @@ export type UserMembersResponse = Array<{
   id: string
   name: string
   image: string
+  type: "ADMIN" | "MEMBER"
 }>
 
 export interface UserResponse {
