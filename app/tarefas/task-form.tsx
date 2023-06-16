@@ -5,6 +5,7 @@ import { format } from "date-fns"
 import { useForm } from "react-hook-form"
 import z from "zod"
 
+import { useMembersAsync } from "@/lib/api/hooks/useUsersAsync"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
@@ -39,12 +40,6 @@ import {
 import { Textarea } from "@/components/ui/textarea"
 import { Icons } from "@/components/icons"
 
-const responsibleMock = [
-  { label: "Vanderli Almeida", value: "b94d27b9" },
-  { label: "Lucas Fernando", value: "b94d27b2" },
-  { label: "John Doe", value: "b94d27b1" },
-] as const
-
 const TasksFormValues = z.object({
   title: z
     .string()
@@ -74,6 +69,14 @@ export interface TasksFormProps {
 }
 
 export default function TasksForm({ defaultValues, onSubmit }: TasksFormProps) {
+  const { data: users } = useMembersAsync()
+
+  const responsibles =
+    users?.map((user) => ({
+      label: user.name,
+      value: user.id,
+    })) ?? []
+
   const isEditMode = !!defaultValues
 
   const form = useForm<TasksFormValues>({
@@ -174,7 +177,7 @@ export default function TasksForm({ defaultValues, onSubmit }: TasksFormProps) {
                         )}
                       >
                         {field.value
-                          ? responsibleMock.find(
+                          ? responsibles.find(
                               (language) => language.value === field.value
                             )?.label
                           : "Selecione um usuário"}
@@ -188,23 +191,23 @@ export default function TasksForm({ defaultValues, onSubmit }: TasksFormProps) {
                       <CommandInput placeholder="Procure um usuário" />
                       <CommandEmpty>Nenhum usuário encontrado.</CommandEmpty>
                       <CommandGroup>
-                        {responsibleMock.map((responsible) => (
+                        {responsibles.map((item) => (
                           <CommandItem
-                            value={responsible.value}
-                            key={responsible.value}
-                            onSelect={(value) => {
-                              form.setValue("responsible", value)
+                            value={item.label}
+                            key={item.label}
+                            onSelect={() => {
+                              form.setValue("responsible", item.value)
                             }}
                           >
                             <Icons.check
                               className={cn(
                                 "mr-2 h-4 w-4",
-                                responsible.value === field.value
+                                item.label === field.value
                                   ? "opacity-100"
                                   : "opacity-0"
                               )}
                             />
-                            {responsible.label}
+                            {item.label}
                           </CommandItem>
                         ))}
                       </CommandGroup>

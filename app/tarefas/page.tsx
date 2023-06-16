@@ -102,7 +102,7 @@ export default function TasksPages() {
                   {item.status === "LATE" && (
                     <Badge variant="destructive">Atrasado</Badge>
                   )}
-                  {item.status === "PENDING" && (
+                  {item.status === "AVAILABLE" && (
                     <Badge variant="secondary">Disponível</Badge>
                   )}
                   {item.status === "FINISHED" && (

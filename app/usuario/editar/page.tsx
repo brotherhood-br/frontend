@@ -43,8 +43,6 @@ type UserEditFormValues = z.input<typeof userEditFormSchema>
 export default function UserEdit() {
   const { user } = useAuth()
 
-  // TODO: get data from api
-
   const form = useForm<UserEditFormValues>({
     defaultValues: {
       birthDate: "06/03/1998",
