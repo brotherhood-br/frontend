@@ -5,7 +5,7 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google"
 
-import { api } from "@/lib/api"
+import { protectedFetch } from "@/lib/api"
 import { useAuth } from "@/hooks/useAuth"
 import { toast } from "@/components/ui/use-toast"
 import { Icons } from "@/components/icons"
@@ -25,7 +25,7 @@ export default function SignInForm({ inviteId }: SignInFormProps) {
     if (!response.credential) throw new Error("No credential found")
 
     setIsLoading(true)
-    const userData: HomeResponse = await api
+    const userData: HomeResponse = await protectedFetch()
       .url("/home")
       .headers({ sso_token: response.credential })
       .get()

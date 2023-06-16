@@ -1,4 +1,4 @@
-import { api } from "@/lib/api"
+import { protectedFetch } from "@/lib/api"
 import { getNameInitials } from "@/lib/utils"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 

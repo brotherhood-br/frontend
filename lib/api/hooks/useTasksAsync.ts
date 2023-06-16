@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 
-import { api } from "../api"
+import { protectedFetch } from "../api"
 
 export type TaskStatus = "FINISHED" | "LATE" | "PENDING"
 
@@ -23,5 +23,7 @@ export interface TaskResponse {
 }
 
 export const useTasksAsync = () => {
-  return useQuery(["tasks"], () => api.get("/tasks").json<TaskResponse>())
+  return useQuery(["tasks"], () =>
+    protectedFetch().get("/tasks").json<TaskResponse>()
+  )
 }

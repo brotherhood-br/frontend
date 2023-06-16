@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
 
-import { api } from "../api"
+import { protectedFetch } from "../api"
 
 export type UserResponse = Array<{
   id: string
@@ -10,10 +10,10 @@ export type UserResponse = Array<{
 
 export const useMembersAsync = () =>
   useQuery(["brotherhood-members"], async () =>
-    api.get("/users").json<UserResponse>()
+    protectedFetch().get("/users").json<UserResponse>()
   )
 
 export const useRemoveMemberAsync = () =>
   useMutation<unknown, Error, string>(["brotherhood-members"], (id) =>
-    api.delete(`/users/${id}`).res()
+    protectedFetch().delete(`/users/${id}`).res()
   )

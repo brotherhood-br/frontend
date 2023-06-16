@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { BrotherhoodRegistrationFormValues } from "@/app/republica/brotherhood-form"
 import { UserRegistrationFormValues } from "@/app/usuario/registrar/user-form"
 
-import { api } from "../api"
+import { protectedFetch } from "../api"
 
 export interface RegistrationBody {
   name: string
@@ -67,7 +67,7 @@ export const useRegistrationAsync = () => {
         },
       }
 
-      return api
+      return protectedFetch()
         .url("/brotherhoods")
         .headers({ sso_token: values.user.token })
         .post(body)

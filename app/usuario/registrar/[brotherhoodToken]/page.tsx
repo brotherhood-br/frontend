@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation"
 
-import { api } from "@/lib/api"
+import { protectedFetch } from "@/lib/api"
 
 import UserRegistrationForm, { UserRegistrationFormValues } from "../user-form"
 
@@ -17,7 +17,7 @@ export default function MemberRegistrationPage({
 
   const onSubmit = async (values: UserRegistrationFormValues) => {
     // TODO: create mutation on reactQuery
-    await api
+    await protectedFetch()
       .url("/users")
       .post({
         brotherhoodToken: params.brotherhoodToken,

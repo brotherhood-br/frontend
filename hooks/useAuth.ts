@@ -5,7 +5,7 @@ import { persist } from "zustand/middleware"
 
 import { getNameInitials } from "@/lib/utils"
 
-type User = {
+interface User {
   id: string
   name: string
   avatar: string
@@ -14,9 +14,12 @@ type User = {
   isAdmin: boolean
 }
 
-type AuthState = {
+export interface AuthState {
   user: User | null
   isAuthenticated: boolean
+  /**
+   * Used in protectedFetch to authenticate requests
+   */
   externalToken: string | null
 
   setExternalToken: (token: string) => void
@@ -30,27 +33,18 @@ type AuthState = {
   }) => void
 }
 
+export const storageKey = "auth" as const
+
 export const useAuth = create(
   persist<AuthState>(
     (set) => ({
       user: null,
       isAuthenticated: false,
       externalToken: null,
-      setExternalToken: (token) => {
-        localStorage.setItem("token", token)
-
-        set({ externalToken: token })
-      },
-      logout: () => {
-        localStorage.setItem("token", "")
-
-        set({ user: null, isAuthenticated: false, externalToken: null })
-      },
-      login: ({ token, user }) => {
-        if (token) {
-          localStorage.setItem("token", token)
-        }
-
+      setExternalToken: (token) => set({ externalToken: token }),
+      logout: () =>
+        set({ user: null, isAuthenticated: false, externalToken: null }),
+      login: ({ token, user }) =>
         set({
           externalToken: token,
           user: {
@@ -59,11 +53,10 @@ export const useAuth = create(
             isAdmin: user.role === "ADMIN",
           },
           isAuthenticated: true,
-        })
-      },
+        }),
     }),
     {
-      name: "auth",
+      name: storageKey,
     }
   )
 )

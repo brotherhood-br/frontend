@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm, useWatch } from "react-hook-form"
 import { z } from "zod"
 
-import { api } from "@/lib/api"
+import { protectedFetch } from "@/lib/api"
 import { useRegistrationAsync } from "@/lib/api/hooks/useRegistrationAsync"
 import { getNameInitials } from "@/lib/utils"
 import { useAuth } from "@/hooks/useAuth"
@@ -139,7 +139,7 @@ export default function BrotherhoodForm({
       brotherhood: data,
     })
 
-    const userData = await api
+    const userData = await protectedFetch()
       .url("/home")
       .headers({ sso_token: externalToken })
       .get()

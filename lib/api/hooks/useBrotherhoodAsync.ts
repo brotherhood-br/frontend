@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 
-import { api } from "../api"
+import { protectedFetch } from "../api"
 
 export interface BrotherHoodHomeAdminResponse {
   brotherhoodId: string
@@ -12,6 +12,8 @@ export interface BrotherHoodHomeAdminResponse {
 
 export const useBrotherhoodHomeAdminAsync = () => {
   return useQuery(["brotherhood"], () =>
-    api.get("/brotherhoods/admin").json<BrotherHoodHomeAdminResponse>()
+    protectedFetch()
+      .get("/brotherhoods/admin")
+      .json<BrotherHoodHomeAdminResponse>()
   )
 }
