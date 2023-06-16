@@ -10,7 +10,7 @@ const paths = {
   home: "/",
 }
 
-export function TabBar() {
+export function BottomNav() {
   const router = useRouter()
   const pathname = usePathname()
 

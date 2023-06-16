@@ -15,8 +15,8 @@ import { cn } from "@/lib/utils"
 import { checkUserSession } from "@/hooks/useAuth"
 import { Toaster } from "@/components/ui/toaster"
 import { toast } from "@/components/ui/use-toast"
+import { BottomNav } from "@/components/bottom-nav"
 import { SiteHeader } from "@/components/site-header"
-import { TabBar } from "@/components/tab-bar"
 import { ThemeProvider } from "@/components/theme-provider"
 
 interface RootLayoutProps {
@@ -149,16 +149,17 @@ export default function RootLayout({ children }: RootLayoutProps) {
                 defaultTheme="system"
                 enableSystem
               >
-                <div className="relative flex min-h-screen flex-col">
+                <div className="relative flex h-screen flex-col">
                   <SiteHeader />
-                  <div className="mx-4 flex-1">{children}</div>
+                  <div className="mt-4 flex-1 overflow-auto">
+                    <div className="mx-4 mb-4">{children}</div>
+                  </div>
+                  <BottomNav />
                 </div>
                 <Toaster />
               </ThemeProvider>
             </GoogleOAuthProvider>
           </QueryClientProvider>
-
-          <TabBar />
         </body>
       </html>
     </>
