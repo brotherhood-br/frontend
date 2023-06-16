@@ -188,7 +188,6 @@ export default function TasksForm({ defaultValues, onSubmit }: TasksFormProps) {
                     </FormControl>
                   </PopoverTrigger>
                   <PopoverContent className="w-full p-0">
-                    {/* FIX: search element on type */}
                     <Command>
                       <CommandInput placeholder="Procure um usuário" />
                       <CommandEmpty>Nenhum usuário encontrado.</CommandEmpty>

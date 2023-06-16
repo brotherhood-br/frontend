@@ -250,7 +250,6 @@ export default function BrotherhoodForm({
 
         {/* TODO: add field of main characteristics (Combobox shadcn) */}
 
-        {/* FIX: dropdown doesnt work on edit mode */}
         <FormField
           control={form.control}
           name="type"

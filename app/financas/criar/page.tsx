@@ -47,14 +47,12 @@ const financeFormSchema = z.object({
 
 type FinanceFormValues = z.infer<typeof financeFormSchema>
 
-export interface FinanceFormProps {
-  defaultValues?: FinanceFormValues
-  onSubmit: (data: FinanceFormValues) => void
-}
+// interface FinanceFormProps {
+//   defaultValues?: FinanceFormValues
+//   onSubmit: (data: FinanceFormValues) => void
+// }
 
-export default function BrotherhoodCreateFinance({
-  onSubmit,
-}: FinanceFormProps) {
+export default function BrotherhoodCreateFinance() {
   const form = useForm<FinanceFormValues>({
     defaultValues: {
       name: "",
@@ -65,6 +63,8 @@ export default function BrotherhoodCreateFinance({
   })
 
   const { isSubmitting } = form.formState
+
+  const onSubmit = () => null
 
   return (
     <div>
