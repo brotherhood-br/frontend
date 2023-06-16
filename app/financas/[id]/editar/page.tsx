@@ -4,9 +4,10 @@ import { useRouter } from "next/navigation"
 
 import { useCreateGoalAsync } from "@/lib/api/hooks/useFinancesAsync"
 
-import FinanceForm, { FinanceFormValues } from "../finance-form"
+import FinanceForm, { FinanceFormValues } from "../../finance-form"
 
-export default function BrotherhoodCreateFinance() {
+// TODO: this doesn't work
+export default function BrotherhoodEditFinance() {
   const { mutateAsync: createGoalAsync } = useCreateGoalAsync()
   const router = useRouter()
 
