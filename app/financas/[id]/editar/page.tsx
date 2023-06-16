@@ -15,7 +15,7 @@ export default function BrotherhoodEditFinance() {
     await createGoalAsync({
       name: data.name,
       description: data.description,
-      targetValue: parseFloat(data.value),
+      value: parseFloat(data.value),
     })
 
     router.push("/financas")

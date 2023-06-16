@@ -56,6 +56,7 @@ export default function BrotherhoodRegistrationPage() {
         role: userData.userType,
         avatar: userData.brotherhoodLogo,
       },
+      brotherhoodId: "", // userData.brotherhoodId,
     })
 
     // Redirect user to home after registration
