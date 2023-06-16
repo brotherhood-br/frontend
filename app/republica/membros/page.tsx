@@ -6,7 +6,6 @@ import {
 } from "@/lib/api/hooks/useUsersAsync"
 import { getNameInitials } from "@/lib/utils"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import {
   DropdownMenu,
@@ -15,6 +14,15 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Icons } from "@/components/icons"
+
+const translateRole = (role: string) => {
+  switch (role) {
+    case "ADMIN":
+      return "Administrador"
+    default:
+      return "Morador"
+  }
+}
 
 export default function BrotherhoodMemberPage() {
   const { data } = useMembersAsync()
@@ -34,11 +42,12 @@ export default function BrotherhoodMemberPage() {
               </Avatar>
               <div className="mr-auto">
                 <h3 className="text-xl font-bold">{item.name}</h3>
-                <span className="text-slate-600">Administrador</span>
+                <span className="text-slate-600">
+                  {translateRole(item.type)}
+                </span>
               </div>
 
-              {/* TODO: add condition based on the user role */}
-              {true && (
+              {item.type !== "ADMIN" && (
                 <DropdownMenu>
                   <DropdownMenuTrigger>
                     <Icons.moreVertical className="h-6 w-6" />
