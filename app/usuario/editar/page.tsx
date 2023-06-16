@@ -142,14 +142,14 @@ export default function UserEdit() {
           {!editMode && (
             <section className="space-y-6">
               <div>
-                <p className="text-slate-500">Data de nascimento</p>
+                <p className="text-sm text-slate-500">Data de nascimento</p>
                 <p className="text-md">
                   {format(parseISO(data.birthdate), "dd/MM/yyyy")}
                 </p>
               </div>
 
               <div>
-                <p className="text-slate-500">Telefone</p>
+                <p className="text-sm text-slate-500">Telefone</p>
                 <p className="text-md">{data.phone}</p>
               </div>
 

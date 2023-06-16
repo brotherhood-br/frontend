@@ -48,19 +48,19 @@ export default function TaskPage({ params }: TaskPageProps) {
         </Avatar>
 
         <div className="flex flex-col">
-          <p className="text-slate-500">Responsável</p>
+          <p className="text-sm text-slate-500">Responsável</p>
           <p className="text-xl font-bold">{task?.responsibleName}</p>
         </div>
       </section>
 
       <section className="space-y-4">
         <div>
-          <p className="text-slate-500">Descrição</p>
+          <p className="text-sm text-slate-500">Descrição</p>
           <p className="text-md">{task?.description}</p>
         </div>
 
         <div>
-          <p className="text-slate-500">Vencimento</p>
+          <p className="text-sm text-slate-500">Vencimento</p>
           <p className="text-md">
             {task?.expiresOn !== undefined &&
               format(parseISO(task?.expiresOn), "dd/MM/yyyy")}
@@ -68,7 +68,7 @@ export default function TaskPage({ params }: TaskPageProps) {
         </div>
 
         <div>
-          <p className="text-slate-500">Frequência</p>
+          <p className="text-sm text-slate-500">Frequência</p>
           <p className="text-md">{translateFrequency(task?.frequency)}</p>
         </div>
       </section>

@@ -26,12 +26,13 @@ interface RootLayoutProps {
 const googleClientId =
   "43960775230-1o1aqgh85sn56nr1ai1kjktp62gf9ihc.apps.googleusercontent.com"
 
-const handleGlobalErrors = (error: any) =>
+const handleGlobalErrors = (error: any) => {
   toast({
     title: "Um erro aconteceu durante uma requisição 😥",
     description: error.message ?? "",
     variant: "destructive",
   })
+}
 
 const queryClient = new QueryClient({
   mutationCache: new MutationCache({
