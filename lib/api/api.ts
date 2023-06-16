@@ -9,7 +9,7 @@ export const protectedFetch = () => {
   const token = JSON.parse(storage)?.state.externalToken
 
   if (!token) {
-    throw new Error("Token not found")
+    console.error("No token found")
     // redirect user to the login page
   }
 
