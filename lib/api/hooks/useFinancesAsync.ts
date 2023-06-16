@@ -20,3 +20,8 @@ export const useFinancesAsync = () => {
     protectedFetch().get("/budgets").json<FinancesResponse>()
   )
 }
+
+export const useFinanceByIdAsync = (id: string) =>
+  useQuery(["finances", id], () =>
+    protectedFetch().url(`/budgets/${id}`).get().json<GoalResponse>()
+  )

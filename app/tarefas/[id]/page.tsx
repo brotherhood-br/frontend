@@ -5,7 +5,6 @@ import { format, parseISO } from "date-fns"
 import { useTaskByIdAsync } from "@/lib/api/hooks/useTasksAsync"
 import { getNameInitials } from "@/lib/utils"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
 
 export interface Task {
   id: string
