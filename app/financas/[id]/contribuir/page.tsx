@@ -1,8 +1,13 @@
 "use client"
 
+import { useState } from "react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 
-import { useFinanceByIdAsync } from "@/lib/api/hooks/useFinancesAsync"
+import {
+  useContributeAsync,
+  useFinanceByIdAsync,
+} from "@/lib/api/hooks/useFinancesAsync"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { Icons } from "@/components/icons"
@@ -24,27 +29,42 @@ interface FinancePageProps {
   params: { id: string }
 }
 
-const isSubmitting = false
-
 export default function BrotherhoodContributeFinance({
   params,
 }: FinancePageProps) {
-  const { data: finance } = useFinanceByIdAsync(params.id)
+  const router = useRouter()
+  const [contributionValue, setContributionValue] = useState(0)
+  const { data: goal } = useFinanceByIdAsync(params.id)
+  const { mutateAsync: contributeAsync, isLoading } = useContributeAsync(
+    params.id
+  )
 
-  const missingAmount =
-    (finance?.targetValue ?? 0) - (finance?.currentValue ?? 0)
+  if (!goal) return null
+
+  const missingAmount = goal?.targetValue - goal?.currentValue
+
+  const handleContribute = async () => {
+    await contributeAsync({ value: contributionValue })
+    router.push("/financas")
+  }
 
   return (
     <div>
       <div className="mt-12">
         <h2 className="text-md flex justify-center uppercase text-gray-500">
-          Doação
+          Contribuir
         </h2>
         <div className="flex items-center justify-center gap-4">
           <p className="text-gray-500">R$</p>
-          <p className="text-6xl font-bold text-primary">
-            {brlCurrency.format(0).slice(3)}
-          </p>
+
+          <input
+            className="w-[100px] text-center text-3xl font-bold text-primary focus:border-none active:border-none"
+            type="text"
+            pattern="[0-9]*"
+            inputMode="numeric"
+            value={contributionValue}
+            onChange={(e) => setContributionValue(Number(e.target.value))}
+          />
         </div>
         <h2 className="mt-12 flex justify-center text-xs uppercase text-gray-500">
           Restam
@@ -66,10 +86,12 @@ export default function BrotherhoodContributeFinance({
             Cancelar
           </Button>
         </Link>
-        <Button className="w-full" type="submit" disabled={isSubmitting}>
-          {isSubmitting ? (
-            <Icons.spinner className="mr-2 animate-spin" />
-          ) : null}
+        <Button
+          className="w-full"
+          disabled={isLoading}
+          onClick={handleContribute}
+        >
+          {isLoading ? <Icons.spinner className="mr-2 animate-spin" /> : null}
           Contribuir
         </Button>
       </div>

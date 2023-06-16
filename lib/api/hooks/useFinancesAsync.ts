@@ -45,3 +45,21 @@ export const useCreateGoalAsync = () => {
     }
   )
 }
+
+export const useContributeAsync = (id: string) => {
+  const queryClient = useQueryClient()
+
+  return useMutation<unknown, Error, { value: number }>(
+    ["createGoal"],
+    (values) =>
+      protectedFetch()
+        .url(`/budgets/goals/${id}/contributions`)
+        .post(values)
+        .res(),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["finances"])
+      },
+    }
+  )
+}
