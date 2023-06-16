@@ -60,7 +60,10 @@ export default function RootLayout({ children }: RootLayoutProps) {
             content="default"
           />
           <meta name="apple-mobile-web-app-title" content="PWA App" />
-          <meta name="description" content="Best PWA App in the world" />
+          <meta
+            name="description"
+            content="A melhor plataforma de gerenciamento de república do mundo."
+          />
           <meta name="format-detection" content="telephone=no" />
           <meta name="mobile-web-app-capable" content="yes" />
           <meta
@@ -113,7 +116,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <meta name="twitter:title" content="PWA App" />
           <meta
             name="twitter:description"
-            content="Best PWA App in the world"
+            content="A melhor plataforma de gerenciamento de república do mundo."
           />
           <meta
             name="twitter:image"
@@ -122,7 +125,10 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <meta name="twitter:creator" content="@DavidWShadow" />
           <meta property="og:type" content="website" />
           <meta property="og:title" content="PWA App" />
-          <meta property="og:description" content="Best PWA App in the world" />
+          <meta
+            property="og:description"
+            content="A melhor plataforma de gerenciamento de república do mundo."
+          />
           <meta property="og:site_name" content="PWA App" />
           <meta property="og:url" content="https://yourdomain.com" />
           <meta
