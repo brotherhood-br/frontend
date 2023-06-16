@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 
+import { useFinancesAsync } from "@/lib/api/hooks/useFinancesAsync"
 import { useAuth } from "@/hooks/useAuth"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -16,27 +17,16 @@ import { Progress } from "@/components/ui/progress"
 import { Separator } from "@/components/ui/separator"
 import { Icons } from "@/components/icons"
 
-const financeMock = {
-  totalValue: 1234.56,
-  goals: [
-    {
-      id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      title: "Comprar um novo fogão",
-      description: "string",
-      currentValue: 0,
-      targetValue: 0,
-    },
-  ],
-}
-
 const brlCurrency = new Intl.NumberFormat("pt-BR", {
   style: "currency",
   currency: "BRL",
 })
 
 export default function FinancesPage() {
+  const { data } = useFinancesAsync()
   const router = useRouter()
   const { user } = useAuth()
+
   const isAdmin = user?.isAdmin ?? false
 
   return (
@@ -50,7 +40,7 @@ export default function FinancesPage() {
         <div className="flex items-center justify-center gap-4">
           <p className="text-gray-500">R$</p>
           <p className="text-5xl font-bold text-primary">
-            {brlCurrency.format(financeMock.totalValue).slice(3)}
+            {brlCurrency.format(data?.totalValue ?? 0).slice(3)}
           </p>
         </div>
       </div>
@@ -60,7 +50,7 @@ export default function FinancesPage() {
       <h2 className="text-md my-4 font-bold">Metas</h2>
 
       <section className="space-y-8">
-        {financeMock.goals.map((item) => (
+        {data?.goals.map((item) => (
           <Card
             className="cursor-pointer"
             onClick={() => router.push(`/financas/${item.id}`)}
