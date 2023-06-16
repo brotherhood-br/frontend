@@ -1,9 +1,11 @@
 "use client"
 
 import Link from "next/link"
+import { format, parseISO } from "date-fns"
 import { useForm } from "react-hook-form"
 import z from "zod"
 
+import { useUserProfileAsync } from "@/lib/api/hooks/useUsersAsync"
 import { useAuth } from "@/hooks/useAuth"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
@@ -16,6 +18,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { Icons } from "@/components/icons"
 
 const userEditFormSchema = z.object({
   birthDate: z
@@ -40,34 +43,18 @@ const userEditFormSchema = z.object({
 
 type UserEditFormValues = z.input<typeof userEditFormSchema>
 
-export default function UserEdit() {
-  const { user } = useAuth()
+interface UserFormProps {
+  defaultValues: UserEditFormValues
+  onSubmit: (formData: UserEditFormValues) => void
+}
 
+const UserForm = ({ defaultValues, onSubmit }: UserFormProps) => {
   const form = useForm<UserEditFormValues>({
-    defaultValues: {
-      birthDate: "06/03/1998",
-      phone: "31 98313-3232",
-    },
+    defaultValues: defaultValues,
   })
-
-  const onSubmit = (data: UserEditFormValues) => {
-    console.log(data)
-  }
 
   return (
     <Form {...form}>
-      <header className="mb-8 flex items-center gap-6">
-        <Avatar className="h-16 w-16">
-          <AvatarImage src="https://github.com/shadcn.png" />
-          <AvatarFallback>{user?.initials}</AvatarFallback>
-        </Avatar>
-
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">{user?.name}</h1>
-          <p className="text-sm text-slate-500">nono@gmail.com</p>
-        </div>
-      </header>
-
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 ">
         <FormField
           control={form.control}
@@ -112,5 +99,40 @@ export default function UserEdit() {
         </div>
       </form>
     </Form>
+  )
+}
+
+export default function UserEdit() {
+  const { user } = useAuth()
+  const { data, isLoading } = useUserProfileAsync(user?.id ?? "")
+
+  const onSubmit = (formData: UserEditFormValues) => {
+    console.log(formData)
+  }
+
+  return (
+    <>
+      <header className="mb-8 flex items-center gap-6">
+        <Avatar className="h-16 w-16">
+          <AvatarImage src={data?.picture} />
+          <AvatarFallback>{user?.initials}</AvatarFallback>
+        </Avatar>
+
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">{user?.name}</h1>
+          <p className="text-sm text-slate-500">{data?.email}</p>
+        </div>
+      </header>
+      {!!data && (
+        <UserForm
+          defaultValues={{
+            birthDate: format(parseISO(data.birthdate), "dd/MM/yyyy"),
+            phone: data.phone,
+          }}
+          onSubmit={onSubmit}
+        />
+      )}
+      {isLoading && <Icons.spinner className="h-6 w-6 animate-spin" />}
+    </>
   )
 }
