@@ -66,7 +66,7 @@ export default function IndexPage() {
 
           return (
             <Card key={item.id}>
-              <Link href={`/tarefa/${item.id}`}>
+              <Link href={`/tarefas/${item.id}`}>
                 <CardContent className="flex items-center p-6">
                   <div className="mr-auto">
                     <h3 className="text-lg font-bold">{item.title}</h3>
