@@ -46,9 +46,18 @@ const queryClient = new QueryClient({
 export default function RootLayout({ children }: RootLayoutProps) {
   const pathname = usePathname()
 
-  if (!["/login"].includes(pathname)) {
+  if (!["/login", "/republica/"].some((value) => pathname.includes(value))) {
     checkUserSession()
   }
+
+  const hideHeader =
+    pathname.includes("/republica/") &&
+    (!pathname.endsWith("membros") || !pathname.endsWith("registrar"))
+
+  const hideNav =
+    (pathname.includes("/republica/") &&
+      (!pathname.endsWith("membros") || !pathname.endsWith("registrar"))) ||
+    pathname.includes("/login")
 
   return (
     <>
@@ -151,11 +160,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
                 enableSystem
               >
                 <div className="relative flex h-screen flex-col">
-                  <SiteHeader />
+                  {!hideHeader && <SiteHeader />}
                   <div className="mt-4 flex-1 overflow-auto">
                     <div className="mx-4 mb-4">{children}</div>
                   </div>
-                  <BottomNav />
+                  {!hideNav && <BottomNav />}
                 </div>
                 <Toaster />
               </ThemeProvider>

@@ -2,9 +2,23 @@
 
 import Image from "next/image"
 
+import { useBrotherhoodDataAsync } from "@/lib/api/hooks/useBrotherhoodAsync"
+import { getNameInitials } from "@/lib/utils"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
+
+const translateType = (type: string | undefined) => {
+  switch (type) {
+    case "JUST_MEN":
+      return "Somente homens"
+
+    case "JUST_WOMEN":
+      return "Somente mulheres"
+
+    case "NO_RESTRICTIONS":
+      return "Sem restrições"
+  }
+}
 
 interface BrotherhoodProfilePageProps {
   params: { id: string }
@@ -13,8 +27,7 @@ interface BrotherhoodProfilePageProps {
 export default function BrotherhoodProfilePage({
   params,
 }: BrotherhoodProfilePageProps) {
-  // TODO: fetch brotherhood data
-  // TODO: remove header and bottom menu
+  const { data } = useBrotherhoodDataAsync(params.id)
 
   return (
     <>
@@ -29,72 +42,53 @@ export default function BrotherhoodProfilePage({
             className="rounded-t-lg"
           />
         </div>
-        <div className="absolute inset-0 rounded-t-lg bg-black opacity-30" />
         <div className="absolute inset-0 flex items-end justify-center pb-4">
           <div className="relative">
-            <Avatar>
-              <AvatarImage src="https://github.com/shadcn.png" />
-              <AvatarFallback>{"LA"}</AvatarFallback>
+            <Avatar className="h-[80px] w-[80px]">
+              <AvatarImage src={data?.logo} />
+              <AvatarFallback>{getNameInitials(data?.name)}</AvatarFallback>
             </Avatar>
-
-            <div className="absolute inset-0 rounded-full shadow-inner" />
           </div>
         </div>
       </div>
 
-      <div className="m-4 space-x-4">
-        <Badge>14 vagas</Badge>
-        <Badge>Masculina</Badge>
-        <Badge>Casa grande</Badge>
-      </div>
+      <h1 className="my-4 text-2xl font-bold">{data?.name}</h1>
+
+      <section className="space-y-4">
+        <div>
+          <p className="text-sm text-slate-500">Telefone</p>
+          <p className="text-md">{data?.phone}</p>
+        </div>
+
+        <div>
+          <p className="text-sm text-slate-500">Endereço</p>
+          <p className="text-md">
+            {data?.address.street}, {data?.address.number} -{" "}
+            {data?.address.city} {data?.address.state}
+          </p>
+        </div>
+
+        <div>
+          <p className="text-sm text-slate-500">Tipo</p>
+          <p className="text-md">{translateType(data?.type)}</p>
+        </div>
+
+        <div>
+          <p className="text-sm text-slate-500">Capacidade</p>
+          <p className="text-md">
+            {data?.membersCount}/{data?.capacity}
+          </p>
+        </div>
+      </section>
 
       <Separator className="my-4" />
 
       <div>
-        <h1 className="text-2xl font-semibold tracking-tight">
-          Principais Características
-        </h1>
-
-        <ul className="mt-4 space-y-2">
-          <li>
-            <span className="font-semibold">Vagas:</span> 14
-          </li>
-          <li>
-            <span className="font-semibold">Gênero:</span> Masculina
-          </li>
-          <li>
-            <span className="font-semibold">Casa:</span> Grande
-          </li>
-          <li>
-            <span className="font-semibold">Endereço:</span> Rua dos Bobos, nº0
-          </li>
-          <li>
-            <span className="font-semibold">Telefone:</span> (00) 00000-0000
-          </li>
-        </ul>
-      </div>
-
-      <Separator className="my-4" />
-
-      <div>
-        <h1 className="text-2xl font-semibold tracking-tight">
+        <h1 className="mt-4 text-xl font-semibold tracking-tight">
           Sobre a República
         </h1>
 
-        <p className="mt-4">
-          Velit cupidatat ipsum et duis anim. Non officia deserunt id ullamco
-          id. Cillum ullamco adipisicing ut cillum dolore.
-        </p>
-      </div>
-
-      <Separator className="my-4" />
-
-      {/* Location */}
-      <div>
-        <h1 className="text-2xl font-semibold tracking-tight">Localização</h1>
-
-        <div className="mt-4"></div>
-        {/* TODO: use react-google-maps and GCP console to handle maps */}
+        <p className="mt-4">{data?.description}</p>
       </div>
     </>
   )

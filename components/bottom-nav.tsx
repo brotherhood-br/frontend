@@ -18,13 +18,10 @@ export function BottomNav() {
     pathname.startsWith(path)
   )?.[0]
 
-  const isLogin = pathname === "/login"
   const isHome = currentPath === "home"
   const isBrotherhood = currentPath === "brotherhood"
   const isFinance = currentPath === "finance"
   const isTask = currentPath === "task"
-
-  if (isLogin) return null
 
   return (
     <div className="sticky inset-x-0 bottom-0 flex h-[4.2rem] w-screen items-center justify-between rounded-t-lg border-t border-gray-200 bg-background px-4 pb-2 shadow-2xl">
