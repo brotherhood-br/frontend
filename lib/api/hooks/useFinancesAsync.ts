@@ -18,7 +18,7 @@ export interface FinancesResponse {
 export interface GoalCreateParams {
   name: string
   description: string
-  targetValue: number
+  value: number
 }
 
 export const useFinancesAsync = () => {
@@ -29,7 +29,7 @@ export const useFinancesAsync = () => {
 
 export const useFinanceByIdAsync = (id: string) =>
   useQuery(["finances", id], () =>
-    protectedFetch().url(`/budgets/${id}`).get().json<GoalResponse>()
+    protectedFetch().url(`/budgets/goals/${id}`).get().json<GoalResponse>()
   )
 
 export const useCreateGoalAsync = () => {

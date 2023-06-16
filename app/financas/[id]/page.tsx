@@ -31,7 +31,7 @@ export default function FinancePage({ params }: FinancePageProps) {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold">{finance?.title}</h1>
+      <h1 className="mb-4 text-2xl font-bold">{finance?.title}</h1>
 
       <section className="space-y-4">
         <div>
@@ -51,12 +51,7 @@ export default function FinancePage({ params }: FinancePageProps) {
         </div>
 
         <div className="space-y-2 pb-8 pt-6">
-          <Link href="/financas">
-            <Button className="mt-auto w-full" variant="secondary">
-              Cancelar
-            </Button>
-          </Link>
-          <Link href="/financas/{id}/contribuir">
+          <Link href={`/financas/${finance?.id}/contribuir`}>
             <Button className="mt-2 w-full">Contribuir</Button>
           </Link>
         </div>

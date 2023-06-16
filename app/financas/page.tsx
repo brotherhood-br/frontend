@@ -76,7 +76,10 @@ export default function FinancesPage() {
             </CardHeader>
             <CardContent className="my-4 text-right">
               <span>{brlCurrency.format(item.targetValue)}</span>
-              <Progress value={33} className="w-[100%]" />
+              <Progress
+                value={(item.currentValue / item.targetValue) * 100}
+                className="w-[100%]"
+              />
             </CardContent>
           </Card>
         ))}
