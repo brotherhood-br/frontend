@@ -29,7 +29,7 @@ export default function BrotherhoodProfilePage({
             className="rounded-t-lg"
           />
         </div>
-        <div className="absolute inset-0 rounded-t-lg bg-black bg-opacity-30" />
+        <div className="absolute inset-0 rounded-t-lg bg-black opacity-30" />
         <div className="absolute inset-0 flex items-end justify-center pb-4">
           <div className="relative">
             <Avatar>
