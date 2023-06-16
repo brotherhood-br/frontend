@@ -1,7 +1,7 @@
 "use client"
 
 import "@/styles/globals.css"
-import { usePathname, useRouter } from "next/navigation"
+import { usePathname } from "next/navigation"
 import { GoogleOAuthProvider } from "@react-oauth/google"
 import {
   MutationCache,

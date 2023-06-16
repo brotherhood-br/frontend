@@ -24,7 +24,7 @@ export function BottomNav() {
   const isTask = currentPath === "task"
 
   return (
-    <div className="sticky inset-x-0 bottom-0 flex h-[4.2rem] w-screen items-center justify-between rounded-t-lg border-t border-gray-200 bg-background px-4 pb-2 shadow-2xl">
+    <div className="sticky inset-x-0 bottom-0 flex h-[5rem] w-screen items-center justify-between rounded-t-lg border-t border-gray-200 bg-background px-4 pb-4 shadow-2xl">
       <button
         className={`flex flex-col items-center justify-center ${
           isHome ? "text-gray-900" : "text-slate-400"
