@@ -24,14 +24,14 @@ export function TabBar() {
   isHome = true;
 
   return (
-    <div className="sticky bottom-0 w-screen mb-0 flex justify-between inset-x-0 items-center h-16 px-4 border-t rounded-t-lg shadow-2xl border-gray-200 bg-background">
+    <div className="sticky inset-x-0 bottom-0 mb-0 flex h-16 w-screen items-center justify-between rounded-t-lg border-t border-gray-200 bg-background px-4 shadow-2xl">
       <button
         className={`flex flex-col items-center justify-center text-gray-500 hover:text-accent ${
           isHome ? "text-accent" : ""
         }`}
         onClick={() => router.push("")}
       >
-        <Icons.home className="w-6 h-6 mb-1">
+        <Icons.home className="mb-1 h-6 w-6">
           </Icons.home>
         <span className="text-xs">Home</span>
       </button>
@@ -41,7 +41,7 @@ export function TabBar() {
         }`}
         onClick={() => router.push("/republica")}
       >
-        <Icons.users className="w-6 h-6 mb-1">
+        <Icons.users className="mb-1 h-6 w-6">
         </Icons.users>
         <span className="text-xs">República</span>
       </button>
@@ -49,9 +49,9 @@ export function TabBar() {
         className={`flex flex-col items-center justify-center text-gray-500 hover:text-accent ${
           isFinance ? "text-accent" : ""
         }`}
-        onClick={() => router.push("")}
+        onClick={() => router.push("/financas")}
       >
-        <Icons.creditCard className="w-6 h-6 mb-1">
+        <Icons.creditCard className="mb-1 h-6 w-6">
         </Icons.creditCard>
         <span className="text-xs">Finanças</span>
       </button>
@@ -61,8 +61,8 @@ export function TabBar() {
         }`}
         onClick={() => router.push("/tarefas")}
       >
-       <Icons.clipBoard className="w-6 h-6 mb-1">
-       </Icons.clipBoard>
+        <Icons.clipBoard className="mb-1 h-6 w-6">
+        </Icons.clipBoard>
         <span className="text-xs">Tarefas</span>
       </button>
     </div>
