@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import { BrotherhoodRegistrationFormValues } from "@/app/republica/brotherhood-form"
 
-import { protectedFetch } from "../api"
+import { protectedFetch, publicFetch } from "../api"
 
 export interface BrotherhoodHomeAdminResponse {
   brotherhoodId: string
@@ -65,6 +65,13 @@ export const useBrotherhoodHomeAdminAsync = () =>
 export const useBrotherhoodDataAsync = (id: string) =>
   useQuery(["brotherhood", id], () =>
     protectedFetch().get(`/brotherhoods/${id}`).json<BrotherhoodDataResponse>()
+  )
+
+export const useBrotherhoodDataProfileAsync = (id: string) =>
+  useQuery(["brotherhood", id], () =>
+    publicFetch()
+      .get(`/brotherhoods/${id}?tracking=true`)
+      .json<BrotherhoodDataResponse>()
   )
 
 export const useChangeBrotherhoodAsync = (id: string) => {

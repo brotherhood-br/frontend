@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 
-import { useBrotherhoodDataAsync } from "@/lib/api/hooks/useBrotherhoodAsync"
+import { useBrotherhoodDataProfileAsync } from "@/lib/api/hooks/useBrotherhoodAsync"
 import { getNameInitials } from "@/lib/utils"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Separator } from "@/components/ui/separator"
@@ -27,7 +27,7 @@ interface BrotherhoodProfilePageProps {
 export default function BrotherhoodProfilePage({
   params,
 }: BrotherhoodProfilePageProps) {
-  const { data } = useBrotherhoodDataAsync(params.id)
+  const { data } = useBrotherhoodDataProfileAsync(params.id)
 
   return (
     <>
