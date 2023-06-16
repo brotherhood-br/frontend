@@ -1,9 +1,9 @@
 import {
   Calendar,
   Check,
+  ChevronLeft,
   ChevronsUpDown,
   ClipboardList,
-  CreditCard,
   Loader2,
   LucideProps,
   Menu,
@@ -36,6 +36,7 @@ export const Icons = {
   twitter: Twitter,
   spinner: Loader2,
   calendar: Calendar,
+  chevronLeft: ChevronLeft,
   moreVertical: MoreVertical,
   moreHorizontal: MoreHorizontal,
   share: Share2,

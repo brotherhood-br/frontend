@@ -7,6 +7,7 @@ import {
   useBrotherhoodDataAsync,
   useBrotherhoodHomeAdminAsync,
 } from "@/lib/api/hooks/useBrotherhoodAsync"
+import { getNameInitials } from "@/lib/utils"
 import { useAuth } from "@/hooks/useAuth"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -138,8 +139,8 @@ const BrotherhoodHomeMember = () => {
         <div className="absolute inset-0 flex items-end justify-center pb-4">
           <div className="relative">
             <Avatar className="h-[80px] w-[80px]">
-              <AvatarImage src="https://github.com/shadcn.png" />
-              <AvatarFallback>{"LA"}</AvatarFallback>
+              <AvatarImage src={data?.logo} />
+              <AvatarFallback>{getNameInitials(data?.name)}</AvatarFallback>
             </Avatar>
           </div>
         </div>
