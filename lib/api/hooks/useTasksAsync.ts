@@ -9,6 +9,7 @@ export interface TaskResponse {
   title: string
   responsibleName: string
   responsibleImg: string
+  attachedUserId: string
   description: string
   expiresOn: string
   status: TaskStatus
@@ -48,6 +49,54 @@ export const useCreateTasksAsync = () => {
   return useMutation<unknown, Error, TaskCreateParams>(
     ["createTask"],
     (values) => protectedFetch().url("/tasks").post(values).res(),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["tasks", "home"])
+      },
+    }
+  )
+}
+
+export const useEditTasksAsync = (id: string) => {
+  const queryClient = useQueryClient()
+
+  return useMutation<unknown, Error, TaskCreateParams>(
+    ["editTask"],
+    (values) => protectedFetch().url(`/tasks/${id}`).put(values).res(),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["tasks", "home"])
+      },
+    }
+  )
+}
+
+export const useDeleteTaskAsync = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation<unknown, Error, string>(
+    ["deleteTask"],
+    (id) => protectedFetch().url(`/tasks/${id}`).delete().res(),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["tasks", "home"])
+      },
+    }
+  )
+}
+
+export const useCompleteTaskAsync = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation<unknown, Error, string>(
+    ["deleteTask"],
+    (id) =>
+      protectedFetch()
+        .url(`/tasks/${id}?unbindUser=false`)
+        .patch({
+          status: "FINISHED",
+        })
+        .res(),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["tasks", "home"])

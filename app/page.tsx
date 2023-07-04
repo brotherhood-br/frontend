@@ -4,14 +4,22 @@ import Link from "next/link"
 import { format } from "date-fns"
 
 import { useHomeAsync } from "@/lib/api/hooks/useHomeAsync"
+import {
+  useCompleteTaskAsync,
+  useDeleteTaskAsync,
+} from "@/lib/api/hooks/useTasksAsync"
 import { getNameInitials } from "@/lib/utils"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Card, CardContent } from "@/components/ui/card"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import { Separator } from "@/components/ui/separator"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Icons } from "@/components/icons"
-
-// TODO: create a log out button
 
 export interface HomeResponse {
   brotherhoodName: string
@@ -30,6 +38,8 @@ export interface HomeResponse {
 
 export default function IndexPage() {
   const { data, isLoading } = useHomeAsync()
+  const { mutateAsync: deleteTaskAsync } = useDeleteTaskAsync()
+  const { mutateAsync: completeTaskAsync } = useCompleteTaskAsync()
 
   return (
     <>
@@ -105,7 +115,30 @@ export default function IndexPage() {
                       Vencimento: {formattedDate}
                     </p>
                   </div>
-                  <Icons.moreVertical className="h-6 w-6" />
+
+                  <DropdownMenu>
+                    <DropdownMenuTrigger>
+                      <Icons.moreVertical className="h-6 w-6" />
+                    </DropdownMenuTrigger>
+
+                    <DropdownMenuContent>
+                      <DropdownMenuItem
+                        onClick={() => completeTaskAsync(item.id)}
+                      >
+                        Completar tarefa
+                      </DropdownMenuItem>
+
+                      <Link href={`/tarefas/${item.id}/editar`}>
+                        <DropdownMenuItem>Editar tarefa</DropdownMenuItem>
+                      </Link>
+
+                      <DropdownMenuItem
+                        onClick={() => deleteTaskAsync(item.id)}
+                      >
+                        Excluir tarefa
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </CardContent>
               </Link>
             </Card>

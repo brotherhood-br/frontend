@@ -15,6 +15,8 @@ import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Icons } from "@/components/icons"
 
+type TaskTiles = TaskStatus & "ALL"
+
 export interface TileProps {
   children: string
   count: number
@@ -33,7 +35,7 @@ const Tile = ({ children, count, value }: TileProps) => (
 )
 
 export default function TasksPages() {
-  const [filter, setFilter] = useState<TaskStatus | null>(null)
+  const [filter, setFilter] = useState<TaskTiles>("ALL" as TaskTiles)
   const { data } = useTasksAsync()
 
   if (!data) {
@@ -41,7 +43,7 @@ export default function TasksPages() {
   }
 
   const tasks = data.tasks
-    .filter((t) => filter === null || t.status === filter)
+    .filter((t) => filter === "ALL" || t.status === filter)
     .sort((a, b) => {
       const dateA = new Date(a.expiresOn)
       const dateB = new Date(b.expiresOn)
@@ -55,10 +57,20 @@ export default function TasksPages() {
 
       <section className="mb-8 space-x-4">
         <RadioGroup
-          defaultValue="card"
-          className="flex gap-4 overflow-x-auto"
-          onValueChange={(e) => setFilter(e as TaskStatus)}
+          defaultValue="ALL"
+          className="no-scrollbar flex gap-4 overflow-x-auto"
+          onValueChange={(e) => setFilter(e as TaskTiles)}
         >
+          <Tile
+            count={
+              data.counterCarousel.late +
+              data.counterCarousel.available +
+              data.counterCarousel.finished
+            }
+            value="ALL"
+          >
+            Todos
+          </Tile>
           <Tile count={data.counterCarousel.late} value="LATE">
             Atrasado
           </Tile>
