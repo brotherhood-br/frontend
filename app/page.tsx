@@ -123,17 +123,27 @@ export default function IndexPage() {
 
                     <DropdownMenuContent>
                       <DropdownMenuItem
-                        onClick={() => completeTaskAsync(item.id)}
+                        onClick={async (e) => {
+                          e.preventDefault()
+                          e.stopPropagation()
+                          await completeTaskAsync(item.id)
+                        }}
                       >
                         Completar tarefa
                       </DropdownMenuItem>
 
-                      <Link href={`/tarefas/${item.id}/editar`}>
-                        <DropdownMenuItem>Editar tarefa</DropdownMenuItem>
-                      </Link>
+                      <DropdownMenuItem>
+                        <Link href={`/tarefas/${item.id}/editar`}>
+                          Editar tarefa
+                        </Link>
+                      </DropdownMenuItem>
 
                       <DropdownMenuItem
-                        onClick={() => deleteTaskAsync(item.id)}
+                        onClick={async (e) => {
+                          e.preventDefault()
+                          e.stopPropagation()
+                          await deleteTaskAsync(item.id)
+                        }}
                       >
                         Excluir tarefa
                       </DropdownMenuItem>
